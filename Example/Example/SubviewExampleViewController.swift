@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import InputBarAccessoryView
+import BinartSwiftInputBar
 
 final class SubviewExampleViewController: CommonTableViewController {
     

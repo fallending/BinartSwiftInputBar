@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import InputBarAccessoryView
+import BinartSwiftInputBar
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

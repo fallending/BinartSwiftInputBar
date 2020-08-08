@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import InputBarAccessoryView
+import BinartSwiftInputBar
 
 enum InputBarStyle: String, CaseIterable {
     
