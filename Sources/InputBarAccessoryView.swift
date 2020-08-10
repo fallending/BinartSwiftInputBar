@@ -461,6 +461,16 @@ open class InputBarAccessoryView: UIView {
         contentView.addSubview(leftStackView)
         contentView.addSubview(rightStackView)
         contentView.addSubview(bottomStackView)
+        
+        // separatorLine
+        // backgroundView
+        // topStackView
+        // contentView
+            // contentView -> middleContentViewWrapper -> inputTextView
+            // contentView -> leftStackView
+            // contentView -> rightStackView
+            // contentView -> bottomStackView
+        
         middleContentViewWrapper.addSubview(inputTextView)
         middleContentView = inputTextView
         setStackViewItems([sendButton], forStack: .right, animated: false)
@@ -494,14 +504,14 @@ open class InputBarAccessoryView: UIView {
         )
 
         // Constraints Within the contentView
-        middleContentViewLayoutSet = NSLayoutConstraintSet(
-            top:    middleContentViewWrapper.topAnchor.constraint(equalTo: contentView.topAnchor, constant: middleContentViewPadding.top),
-            bottom: middleContentViewWrapper.bottomAnchor.constraint(equalTo: bottomStackView.topAnchor, constant: -middleContentViewPadding.bottom),
-            left:   middleContentViewWrapper.leftAnchor.constraint(equalTo: leftStackView.rightAnchor, constant: middleContentViewPadding.left),
-            right:  middleContentViewWrapper.rightAnchor.constraint(equalTo: rightStackView.leftAnchor, constant: -middleContentViewPadding.right)
-        )
+        middleContentViewWrapper.whc_TopSpace(middleContentViewPadding.top)
+        middleContentViewWrapper.whc_LeftSpace(middleContentViewPadding.left)
+        middleContentViewWrapper.whc_RightSpace(-middleContentViewPadding.right)
+        
+        // 固定高度
+        middleContentViewWrapper.whc_BottomSpace(-middleContentViewPadding.bottom)
 
-//        inputTextView.fillSuperview()
+        inputTextView.fillSuperview()
         maxTextViewHeight = calculateMaxTextViewHeight()
         textViewHeightAnchor = inputTextView.heightAnchor.constraint(equalToConstant: maxTextViewHeight)
         
@@ -518,6 +528,9 @@ open class InputBarAccessoryView: UIView {
             right:  rightStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0),
             width:  rightStackView.widthAnchor.constraint(equalToConstant: rightStackViewWidthConstant)
         )
+        
+        bottomStackView.whc_TopSpace(middleContentViewPadding.bottom, toView: middleContentViewWrapper)
+//        bottomStackView.whc_TopSpace(<#T##topSpace: CGFloat##CGFloat#>, toView: <#T##NSObject!#>)
         
         bottomStackViewLayoutSet = NSLayoutConstraintSet(
             top:    bottomStackView.topAnchor.constraint(equalTo: middleContentViewWrapper.bottomAnchor, constant: middleContentViewPadding.bottom),

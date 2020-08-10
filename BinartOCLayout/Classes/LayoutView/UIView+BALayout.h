@@ -879,14 +879,14 @@ typedef UIView * (^FrameEqual)(NSObject * view);
  @param view 相对视图
  @return 返回当前视图
  */
-- (UIView *)whc_SizeEqualView:(UIView *)view;
+- (UIView *)whc_SizeEqualView:(NSObject *)view;
 
 /**
  设置视图frame等于view
  @param view 相对视图
  @return 返回当前视图
  */
-- (UIView *)whc_FrameEqualView:(UIView *)view;
+- (UIView *)whc_FrameEqualView:(NSObject *)view;
 
 #pragma mark - 自动加边线模块 -
 
