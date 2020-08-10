@@ -99,14 +99,14 @@ extension READMEPreviewViewController: AutocompleteManagerDelegate, Autocomplete
     // MARK: - AutocompleteManagerDelegate Helper
 
     func setAutocompleteManager(active: Bool) {
-        let topStackView = inputBar.topStackView
-        if active && !topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
-            topStackView.insertArrangedSubview(autocompleteManager.tableView, at: topStackView.arrangedSubviews.count)
-            topStackView.layoutIfNeeded()
-        } else if !active && topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
-            topStackView.removeArrangedSubview(autocompleteManager.tableView)
-            topStackView.layoutIfNeeded()
-        }
-        inputBar.invalidateIntrinsicContentSize()
+//        let topStackView = inputBar.topStackView
+//        if active && !topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
+//            topStackView.insertArrangedSubview(autocompleteManager.tableView, at: topStackView.arrangedSubviews.count)
+//            topStackView.layoutIfNeeded()
+//        } else if !active && topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
+//            topStackView.removeArrangedSubview(autocompleteManager.tableView)
+//            topStackView.layoutIfNeeded()
+//        }
+//        inputBar.invalidateIntrinsicContentSize()
     }
 }

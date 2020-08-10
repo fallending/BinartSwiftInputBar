@@ -39,7 +39,7 @@ class GitHawkInputBar: InputBarAccessoryView {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.reuseIdentifier)
-        bottomStackView.addArrangedSubview(collectionView)
+        bottomStackView.addSubview(collectionView)
         collectionView.reloadData()
     }
     

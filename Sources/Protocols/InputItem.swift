@@ -34,7 +34,7 @@ public protocol InputItem: AnyObject {
     var inputBarAccessoryView: InputBarAccessoryView? { get set }
     
     /// A reference to the InputStackView that the InputItem is contained in. Set when inserted into an InputStackView
-    var parentStackViewPosition: InputStackView.Position? { get set }
+    var parentStackViewPosition: InputBarAccessoryView.StackItemPosition? { get set }
     
     /// A hook that is called when the InputTextView's text is changed
     func textViewDidChangeAction(with textView: InputTextView)

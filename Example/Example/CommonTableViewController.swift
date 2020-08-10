@@ -222,11 +222,11 @@ extension CommonTableViewController: AttachmentManagerDelegate {
     func setAttachmentManager(active: Bool) {
         
         let topStackView = inputBar.topStackView
-        if active && !topStackView.arrangedSubviews.contains(attachmentManager.attachmentView) {
-            topStackView.insertArrangedSubview(attachmentManager.attachmentView, at: topStackView.arrangedSubviews.count)
+        if active && !topStackView.subviews.contains(attachmentManager.attachmentView) {
+            topStackView.insertSubview(attachmentManager.attachmentView, at: topStackView.subviews.count)
             topStackView.layoutIfNeeded()
-        } else if !active && topStackView.arrangedSubviews.contains(attachmentManager.attachmentView) {
-            topStackView.removeArrangedSubview(attachmentManager.attachmentView)
+        } else if !active && topStackView.subviews.contains(attachmentManager.attachmentView) {
+//            topStackView.removeArrangedSubview(attachmentManager.attachmentView)
             topStackView.layoutIfNeeded()
         }
     }
@@ -288,15 +288,15 @@ extension CommonTableViewController: AutocompleteManagerDelegate, AutocompleteMa
     // MARK: - AutocompleteManagerDelegate Helper
     
     func setAutocompleteManager(active: Bool) {
-        let topStackView = inputBar.topStackView
-        if active && !topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
-            topStackView.insertArrangedSubview(autocompleteManager.tableView, at: topStackView.arrangedSubviews.count)
-            topStackView.layoutIfNeeded()
-        } else if !active && topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
-            topStackView.removeArrangedSubview(autocompleteManager.tableView)
-            topStackView.layoutIfNeeded()
-        }
-        inputBar.invalidateIntrinsicContentSize()
+//        let topStackView = inputBar.topStackView
+//        if active && !topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
+//            topStackView.insertArrangedSubview(autocompleteManager.tableView, at: topStackView.arrangedSubviews.count)
+//            topStackView.layoutIfNeeded()
+//        } else if !active && topStackView.arrangedSubviews.contains(autocompleteManager.tableView) {
+//            topStackView.removeArrangedSubview(autocompleteManager.tableView)
+//            topStackView.layoutIfNeeded()
+//        }
+//        inputBar.invalidateIntrinsicContentSize()
     }
 }
 

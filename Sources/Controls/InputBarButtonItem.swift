@@ -87,7 +87,7 @@ open class InputBarButtonItem: UIButton, InputItem {
     }
     
     /// A reference to the stack view position that the InputBarButtonItem is held in
-    open var parentStackViewPosition: InputStackView.Position?
+    open var parentStackViewPosition: InputBarAccessoryView.StackItemPosition?
     
     /// The title for the UIControlState.normal
     open var title: String? {

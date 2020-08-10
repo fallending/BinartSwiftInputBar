@@ -253,13 +253,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BinartOCLayout/BinartOCLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/BinartSwiftInputBar/BinartSwiftInputBar.framework",
-				"${BUILT_PRODUCTS_DIR}/WHC_AutoLayoutKit/WHC_AutoLayoutKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BinartOCLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BinartSwiftInputBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WHC_AutoLayoutKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

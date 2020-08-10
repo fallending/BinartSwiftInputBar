@@ -79,17 +79,36 @@ class SlackInputBar: InputBarAccessoryView {
             }.onSelected {
                 let oldValue = $0.inputBarAccessoryView?.shouldForceTextViewMaxHeight ?? false
                 $0.image = oldValue ? UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "icons8-collapse")?.withRenderingMode(.alwaysTemplate)
+                
+                
+                
+//                self.set
+                if oldValue {
+                        self.setStackViewItems([], forStack: .bottom, animated: true)
+                } else {
+                        self.setStackViewItems(items, forStack: .bottom, animated: true)
+                }
+                self.setStackViewItems(items, forStack: .bottom, animated: false)
                 self.setShouldForceMaxTextViewHeight(to: !oldValue, animated: true)
+//                self.bottomStackView.whc_Height(200)
+//                self.bottomStackView.whc_StartLayout()
         }
-        rightStackView.alignment = .top
+        rightStackView.whc_SubViewWidth = 32
+        rightStackView.whc_SubViewHeight = 32
+        
+
         setStackViewItems([maxSizeItem], forStack: .right, animated: false)
         setRightStackViewWidthConstant(to: 20, animated: false)
-        
+        //        rightStackView.whc_SubViewWidth = 32
+                
+//                bottomStackView.whc_Column = 2
+//        //        bottomStackView.whc_SubViewCount = 5
+        bottomStackView.whc_SubViewWidth = 80
+        bottomStackView.whc_SubViewHeight = 80
+        //        rightStackView.alignment = .top
         // Finally set the items
-        setStackViewItems(items, forStack: .bottom, animated: false)
+         //
     }
-    
-
     
     private func makeButton(named: String) -> InputBarButtonItem {
         return InputBarButtonItem()

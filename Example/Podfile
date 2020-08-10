@@ -6,6 +6,10 @@ target 'Example' do
   use_frameworks!
 
   # Pods for Example
+  
+  # 暂时让InputBar包容Layout
+  pod 'BinartOCLayout', :path => '../'
+
   pod 'BinartSwiftInputBar', :path => '../'
 
 end

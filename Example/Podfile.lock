@@ -1,45 +1,25 @@
 PODS:
+  - BinartOCLayout (1.0.0)
   - BinartSwiftInputBar (5.0.0):
+    - BinartOCLayout
     - BinartSwiftInputBar/Core (= 5.0.0)
-    - WHC_AutoLayoutKit
   - BinartSwiftInputBar/Core (5.0.0):
-    - WHC_AutoLayoutKit
-  - WHC_AutoLayoutKit (2.8.6):
-    - WHC_AutoLayoutKit/AutoCellHeight (= 2.8.6)
-    - WHC_AutoLayoutKit/Frame (= 2.8.6)
-    - WHC_AutoLayoutKit/LayoutGuide (= 2.8.6)
-    - WHC_AutoLayoutKit/LayoutView (= 2.8.6)
-    - WHC_AutoLayoutKit/StackView (= 2.8.6)
-    - WHC_AutoLayoutKit/Util (= 2.8.6)
-  - WHC_AutoLayoutKit/AutoCellHeight (2.8.6):
-    - WHC_AutoLayoutKit/LayoutView
-    - WHC_AutoLayoutKit/Util
-  - WHC_AutoLayoutKit/Frame (2.8.6):
-    - WHC_AutoLayoutKit/Util
-  - WHC_AutoLayoutKit/LayoutGuide (2.8.6):
-    - WHC_AutoLayoutKit/Util
-  - WHC_AutoLayoutKit/LayoutView (2.8.6):
-    - WHC_AutoLayoutKit/Util
-  - WHC_AutoLayoutKit/StackView (2.8.6):
-    - WHC_AutoLayoutKit/Frame
-    - WHC_AutoLayoutKit/LayoutView
-  - WHC_AutoLayoutKit/Util (2.8.6)
+    - BinartOCLayout
 
 DEPENDENCIES:
+  - BinartOCLayout (from `../`)
   - BinartSwiftInputBar (from `../`)
 
-SPEC REPOS:
-  trunk:
-    - WHC_AutoLayoutKit
-
 EXTERNAL SOURCES:
+  BinartOCLayout:
+    :path: "../"
   BinartSwiftInputBar:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BinartSwiftInputBar: 81c167b37cce73f08755236cc926ec4c99c374d6
-  WHC_AutoLayoutKit: 8f1321571cbcc27922ecd9d51a44f4ffe8d98ff8
+  BinartOCLayout: 77f8b27fcfc91d6c5834ad112c7b2aafa786c81e
+  BinartSwiftInputBar: 905039908be7c40fba173dca313f957e96ff40e5
 
-PODFILE CHECKSUM: 2e8a0db78555074d14ac22c2449c3409ad747073
+PODFILE CHECKSUM: edf56b81447e7c60cd6d2b12acad9aebc80a6a96
 
 COCOAPODS: 1.9.3
