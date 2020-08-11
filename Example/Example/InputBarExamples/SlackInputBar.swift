@@ -11,6 +11,8 @@ import BinartSwiftInputBar
 
 class SlackInputBar: InputBarAccessoryView {
     
+    var extended: Bool = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -35,7 +37,6 @@ class SlackInputBar: InputBarAccessoryView {
                 self.inputPlugins.forEach { _ = $0.handleInput(of: "#" as AnyObject) }
                 $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
             },
-            .flexibleSpace,
             makeButton(named: "ic_library")
                 .onSelected {
                     $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
@@ -44,26 +45,6 @@ class SlackInputBar: InputBarAccessoryView {
                     imagePicker.sourceType = .photoLibrary
                     (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController?.present(imagePicker, animated: true, completion: nil)
             },
-            sendButton
-                .configure {
-                    $0.layer.cornerRadius = 8
-                    $0.layer.borderWidth = 1.5
-                    $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
-                    $0.setTitleColor(.white, for: .normal)
-                    $0.setTitleColor(.white, for: .highlighted)
-                    $0.setSize(CGSize(width: 52, height: 30), animated: false)
-                }.onDisabled {
-                    $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
-                    $0.backgroundColor = .white
-                }.onEnabled {
-                    $0.backgroundColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-                    $0.layer.borderColor = UIColor.clear.cgColor
-                }.onSelected {
-                    // We use a transform becuase changing the size would cause the other views to relayout
-                    $0.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                }.onDeselected {
-                    $0.transform = CGAffineTransform.identity
-            }
         ]
         items.forEach { $0.tintColor = .lightGray }
         
@@ -77,37 +58,36 @@ class SlackInputBar: InputBarAccessoryView {
                 $0.tintColor = .darkGray
                 $0.setSize(CGSize(width: 20, height: 20), animated: false)
             }.onSelected {
-                let oldValue = $0.inputBarAccessoryView?.shouldForceTextViewMaxHeight ?? false
-                $0.image = oldValue ? UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "icons8-collapse")?.withRenderingMode(.alwaysTemplate)
+                $0.image = self.extended ? UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "icons8-collapse")?.withRenderingMode(.alwaysTemplate)
                 
-                
-                
-//                self.set
-                if oldValue {
-                        self.setStackViewItems([], forStack: .bottom, animated: true)
+                if self.extended {
+                    self.setStackViewItems([], forStack: .bottom, animated: true)
                 } else {
-                        self.setStackViewItems(items, forStack: .bottom, animated: true)
+                    self.setStackViewItems(items, forStack: .bottom, animated: true)
                 }
-                self.setStackViewItems(items, forStack: .bottom, animated: false)
-                self.setShouldForceMaxTextViewHeight(to: !oldValue, animated: true)
-//                self.bottomStackView.whc_Height(200)
-//                self.bottomStackView.whc_StartLayout()
-        }
-        rightStackView.whc_SubViewWidth = 32
-        rightStackView.whc_SubViewHeight = 32
-        
-
-        setStackViewItems([maxSizeItem], forStack: .right, animated: false)
-        setRightStackViewWidthConstant(to: 20, animated: false)
-        //        rightStackView.whc_SubViewWidth = 32
                 
-//                bottomStackView.whc_Column = 2
-//        //        bottomStackView.whc_SubViewCount = 5
-        bottomStackView.whc_SubViewWidth = 80
-        bottomStackView.whc_SubViewHeight = 80
-        //        rightStackView.alignment = .top
-        // Finally set the items
-         //
+                self.extended = !self.extended
+            }
+        
+        let maxSizeItem1 = InputBarButtonItem()
+        .configure {
+            $0.image = UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate)
+            $0.tintColor = .darkGray
+            $0.setSize(CGSize(width: 20, height: 20), animated: false)
+        }.onSelected {
+            $0.image = self.extended ? UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "icons8-collapse")?.withRenderingMode(.alwaysTemplate)
+            
+            if self.extended {
+                self.setStackViewItems([], forStack: .bottom, animated: true)
+            } else {
+                self.setStackViewItems(items, forStack: .bottom, animated: true)
+            }
+            
+            self.extended = !self.extended
+        }
+        
+        setStackViewItems([maxSizeItem, maxSizeItem1], forStack: .right, animated: false)
+        setRightStackViewWidthConstant(to: 50, animated: false)
     }
     
     private func makeButton(named: String) -> InputBarButtonItem {

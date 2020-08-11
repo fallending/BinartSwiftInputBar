@@ -129,20 +129,20 @@ extension CommonTableViewController: InputBarAccessoryViewDelegate {
         inputBar.invalidatePlugins()
 
         // Send button activity animation
-        inputBar.sendButton.startAnimating()
-        inputBar.inputTextView.placeholder = "Sending..."
-        DispatchQueue.global(qos: .default).async {
-            // fake send request task
-            sleep(1)
-            DispatchQueue.main.async { [weak self] in
-                inputBar.sendButton.stopAnimating()
-                inputBar.inputTextView.placeholder = "Aa"
-                self?.conversation.messages.append(SampleData.Message(user: SampleData.shared.currentUser, text: text))
-                let indexPath = IndexPath(row: (self?.conversation.messages.count ?? 1) - 1, section: 0)
-                self?.tableView.insertRows(at: [indexPath], with: .automatic)
-                self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-            }
-        }
+//        inputBar.sendButton.startAnimating()
+//        inputBar.inputTextView.placeholder = "Sending..."
+//        DispatchQueue.global(qos: .default).async {
+//            // fake send request task
+//            sleep(1)
+//            DispatchQueue.main.async { [weak self] in
+//                inputBar.sendButton.stopAnimating()
+//                inputBar.inputTextView.placeholder = "Aa"
+//                self?.conversation.messages.append(SampleData.Message(user: SampleData.shared.currentUser, text: text))
+//                let indexPath = IndexPath(row: (self?.conversation.messages.count ?? 1) - 1, section: 0)
+//                self?.tableView.insertRows(at: [indexPath], with: .automatic)
+//                self?.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+//            }
+//        }
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
@@ -199,15 +199,15 @@ extension CommonTableViewController: AttachmentManagerDelegate {
     }
     
     func attachmentManager(_ manager: AttachmentManager, didReloadTo attachments: [AttachmentManager.Attachment]) {
-        inputBar.sendButton.isEnabled = manager.attachments.count > 0
+//        inputBar.sendButton.isEnabled = manager.attachments.count > 0
     }
     
     func attachmentManager(_ manager: AttachmentManager, didInsert attachment: AttachmentManager.Attachment, at index: Int) {
-        inputBar.sendButton.isEnabled = manager.attachments.count > 0
+//        inputBar.sendButton.isEnabled = manager.attachments.count > 0
     }
     
     func attachmentManager(_ manager: AttachmentManager, didRemove attachment: AttachmentManager.Attachment, at index: Int) {
-        inputBar.sendButton.isEnabled = manager.attachments.count > 0
+//        inputBar.sendButton.isEnabled = manager.attachments.count > 0
     }
     
     func attachmentManager(_ manager: AttachmentManager, didSelectAddAttachmentAt index: Int) {
@@ -221,14 +221,14 @@ extension CommonTableViewController: AttachmentManagerDelegate {
     
     func setAttachmentManager(active: Bool) {
         
-        let topStackView = inputBar.topStackView
-        if active && !topStackView.subviews.contains(attachmentManager.attachmentView) {
-            topStackView.insertSubview(attachmentManager.attachmentView, at: topStackView.subviews.count)
-            topStackView.layoutIfNeeded()
-        } else if !active && topStackView.subviews.contains(attachmentManager.attachmentView) {
-//            topStackView.removeArrangedSubview(attachmentManager.attachmentView)
-            topStackView.layoutIfNeeded()
-        }
+//        let topStackView = inputBar.topStackView
+//        if active && !topStackView.subviews.contains(attachmentManager.attachmentView) {
+//            topStackView.insertSubview(attachmentManager.attachmentView, at: topStackView.subviews.count)
+//            topStackView.layoutIfNeeded()
+//        } else if !active && topStackView.subviews.contains(attachmentManager.attachmentView) {
+////            topStackView.removeArrangedSubview(attachmentManager.attachmentView)
+//            topStackView.layoutIfNeeded()
+//        }
     }
 }
 

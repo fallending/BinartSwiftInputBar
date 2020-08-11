@@ -44,26 +44,26 @@ class WechatInputBar: InputBarAccessoryView {
                     imagePicker.sourceType = .photoLibrary
                     (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController?.present(imagePicker, animated: true, completion: nil)
             },
-            sendButton
-                .configure {
-                    $0.layer.cornerRadius = 8
-                    $0.layer.borderWidth = 1.5
-                    $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
-                    $0.setTitleColor(.white, for: .normal)
-                    $0.setTitleColor(.white, for: .highlighted)
-                    $0.setSize(CGSize(width: 52, height: 30), animated: false)
-                }.onDisabled {
-                    $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
-                    $0.backgroundColor = .white
-                }.onEnabled {
-                    $0.backgroundColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-                    $0.layer.borderColor = UIColor.clear.cgColor
-                }.onSelected {
-                    // We use a transform becuase changing the size would cause the other views to relayout
-                    $0.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                }.onDeselected {
-                    $0.transform = CGAffineTransform.identity
-            }
+//            sendButton
+//                .configure {
+//                    $0.layer.cornerRadius = 8
+//                    $0.layer.borderWidth = 1.5
+//                    $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
+//                    $0.setTitleColor(.white, for: .normal)
+//                    $0.setTitleColor(.white, for: .highlighted)
+//                    $0.setSize(CGSize(width: 52, height: 30), animated: false)
+//                }.onDisabled {
+//                    $0.layer.borderColor = $0.titleColor(for: .disabled)?.cgColor
+//                    $0.backgroundColor = .white
+//                }.onEnabled {
+//                    $0.backgroundColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
+//                    $0.layer.borderColor = UIColor.clear.cgColor
+//                }.onSelected {
+//                    // We use a transform becuase changing the size would cause the other views to relayout
+//                    $0.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+//                }.onDeselected {
+//                    $0.transform = CGAffineTransform.identity
+//            }
         ]
         items.forEach { $0.tintColor = .lightGray }
         
@@ -79,7 +79,7 @@ class WechatInputBar: InputBarAccessoryView {
             }.onSelected {
                 let oldValue = $0.inputBarAccessoryView?.shouldForceTextViewMaxHeight ?? false
                 $0.image = oldValue ? UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "icons8-collapse")?.withRenderingMode(.alwaysTemplate)
-                self.setShouldForceMaxTextViewHeight(to: !oldValue, animated: true)
+//                self.setShouldForceMaxTextViewHeight(to: !oldValue, animated: true)
         }
 //        rightStackView.alignment = .top
         setStackViewItems([maxSizeItem], forStack: .right, animated: false)

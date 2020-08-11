@@ -2158,14 +2158,14 @@ static inline UIView * owningView(NSObject * view) {
 }
 
 - (UIView *)whc_AutoWidth {
-#if TARGET_OS_IPHONE || TARGET_OS_TV
+
     if ([self isKindOfClass:[UILabel class]]) {
         UILabel * selfLabel = (UILabel *)self;
         if (selfLabel.numberOfLines == 0) {
             selfLabel.numberOfLines = 1;
         }
     }
-#endif
+
     if ([self widthConstraint] != nil ||
         [self widthLessConstraint] != nil) {
         return self.whc_Width(0).whc_GreaterOrEqual();
@@ -2209,17 +2209,18 @@ static inline UIView * owningView(NSObject * view) {
 }
 
 - (UIView *)whc_AutoHeight {
-#if TARGET_OS_IPHONE || TARGET_OS_TV
+
     if ([self isKindOfClass:[UILabel class]]) {
         if (((UILabel *)self).numberOfLines != 0) {
             ((UILabel *)self).numberOfLines = 0;
         }
     }
-#endif
+
     if ([self heightConstraint] != nil ||
         [self heightLessConstraint] != nil) {
         return self.whc_Height(0).whc_GreaterOrEqual();
     }
+    
     return [self whc_ConstraintWithItem:self
                        attribute:NSLayoutAttributeHeight
                        relatedBy:NSLayoutRelationGreaterThanOrEqual
@@ -2827,6 +2828,7 @@ static inline UIView * owningView(NSObject * view) {
     [self setCacheConstraint:constraint attribute:attribute relation:related];
     [superView addConstraint:constraint];
     [self setCurrentConstraint:constraint];
+//    self.constraints
     return self;
 }
 

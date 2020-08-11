@@ -40,7 +40,7 @@ class NoTextViewInputBar: InputBarAccessoryView {
 
     @objc func joinPressed() {
         setMiddleContentView(inputTextView, animated: false)
-        setStackViewItems([sendButton], forStack: .right, animated: false)
+//        setStackViewItems([sendButton], forStack: .right, animated: false)
         setRightStackViewWidthConstant(to: 52, animated: false)
     }
 }

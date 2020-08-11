@@ -46,14 +46,14 @@ final class READMEPreviewViewController: InputBarViewController {
         inputBar.inputTextView.text = ""
         inputBar.inputTextView.placeholder = "Sending..."
         inputBar.inputTextView.isEditable = false
-        inputBar.sendButton.startAnimating()
+//        inputBar.sendButton.startAnimating()
     }
 
     private func setStateReady() {
         inputBar.inputTextView.text = ""
         inputBar.inputTextView.placeholder = "Aa"
         inputBar.inputTextView.isEditable = true
-        inputBar.sendButton.stopAnimating()
+//        inputBar.sendButton.stopAnimating()
     }
 }
 
