@@ -289,74 +289,71 @@
             break;
     }
     
-    // 上侧
-    [view whc_TopSpace:self.padding.top];
+    // 交叉轴排列
+    switch (self.flex.align) {
+        case BAAlignItemsStart: {
+            // 向容器顶部固定
+            [view whc_TopSpace:self.padding.top];
+        }
+            break;
+            
+        case BAAlignItemsEnd: {
+            // 向容器底部固定
+            [view whc_BottomSpace:self.padding.bottom];
+        }
+            break;
+            
+        default:
+            @throw [NSException exceptionWithName:@"BAStackView" reason:@"当前 flex.align 类型不支持" userInfo:@{}];
+            break;
+    }
     
-    // 后续、尾部
-    if (nextView) {
-        if (self.arrangedSubviewWidth > 0) { // 子view宽度优先
-            [view whc_Width:self.arrangedSubviewWidth];
+    // 后续（有nextView）、尾部（无nextView）
+    if (self.arrangedSubviewWidth > 0) {
+        [view whc_Width:self.arrangedSubviewWidth];
+    } else {
+        if (self.widthHeightRatio > 0) {
+            [view whc_WidthHeightRatio:self.widthHeightRatio];
         } else {
-            if (self.widthHeightRatio > 0) { // 子 view 宽高比 其次
-                [view whc_WidthHeightRatio:self.widthHeightRatio];
+            if (_autoWidth) {
+                [view whc_AutoWidth];
             } else {
-                if (_autoWidth) {
-                    [view whc_AutoWidth];
-                } else {
+                if (nextView) {
                     [view whc_WidthEqualView:nextView
                                        ratio:view.whc_WidthWeight / nextView.whc_WidthWeight];
+                } else {
+                    [view whc_RightSpace:self.padding.right];
                 }
             }
         }
-        if (self.arrangedSubviewHeight > 0) {
-            [view whc_Height:self.arrangedSubviewHeight];
-        } else {
-            if (self.heightWidthRatio > 0) {
-                [view whc_HeightWidthRatio:self.heightWidthRatio];
-            } else {
-                if (_autoHeight) {
-                    [view whc_AutoHeight];
-                }else {
-                    [view whc_BottomSpace:self.padding.bottom];
-                }
-            }
-        }
+    }
+    
+    // 高度处理
+    if (self.arrangedSubviewHeight > 0) {
+        [view whc_Height:self.arrangedSubviewHeight];
     } else {
-        if (self.arrangedSubviewWidth > 0) {
-            [view whc_Width:self.arrangedSubviewWidth];
-//            if (_autoWidth) {
-//                [view whc_RightSpace:self.padding.right];
-//            }
-        }else {
-            if (self.widthHeightRatio > 0) {
-                [view whc_WidthHeightRatio:self.widthHeightRatio];
-//                if (_autoWidth) {
-//                    [view whc_RightSpace:self.padding.right];
-//                }
-            } else {
-//                if (_autoWidth) {
-//                    [view whc_AutoWidth];
-//                }
-                [view whc_RightSpace:self.padding.right];
-            }
-        }
-        if (self.arrangedSubviewHeight > 0) {
-            [view whc_Height:self.arrangedSubviewHeight];
-//            if (_autoHeight) {
-//                [view whc_BottomSpace:self.padding.bottom];
-//            }
+        if (self.heightWidthRatio > 0) {
+            [view whc_HeightWidthRatio:self.heightWidthRatio];
         } else {
-            if (self.heightWidthRatio > 0) {
-                [view whc_HeightWidthRatio:self.heightWidthRatio];
-//                if (_autoHeight) {
-//                    [view whc_BottomSpace:self.padding.bottom];
-//                }
+            if (_autoHeight) {
+                [view whc_AutoHeight];
             } else {
-                if (_autoHeight) {
-                    [view whc_AutoHeight];
-                }else {
-                    [view whc_BottomSpace:self.padding.bottom];
+                
+                switch (self.flex.align) {
+                    case BAAlignItemsStart: {
+                        [view whc_BottomSpace:self.padding.bottom];
+                    }
+                        break;
+                        
+                    case BAAlignItemsEnd: {
+                        [view whc_TopSpace:self.padding.top];
+                    }
+                        break;
+                        
+                    default:
+                        break;
                 }
+                
             }
         }
     }
