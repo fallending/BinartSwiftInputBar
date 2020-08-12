@@ -25,6 +25,8 @@ class SlackInputBar: InputBarAccessoryView {
     }
     
     func configure() {
+        self.inputTextView.backgroundColor = .red
+        
         let items = [
             makeButton(named: "ic_camera").onTextViewDidChange { button, textView in
                 button.isEnabled = textView.text.isEmpty

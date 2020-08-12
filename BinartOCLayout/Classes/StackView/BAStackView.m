@@ -221,21 +221,7 @@
             for (int i = 0; i < count; i++) {
                 UIView * view = subViews[i];
                 UIView * nextView = i < count - 1 ? subViews[i + 1] : nil;
-//                if (i == 0) {
-//                    [view whc_LeftSpace:self.padding.left];
-//                } else {
-//                    if (self.whc_SegmentLineSize > 0.0) {
-//                        BAStackViewLineView * lineView = [self makeLine];
-//                        [self addSubview:lineView];
-//                        [lineView whc_TopSpace:self.whc_SegmentLinePadding];
-//                        [lineView whc_BottomSpace:self.whc_SegmentLinePadding];
-//                        [lineView whc_LeftSpace:self.horizontalSpacing / 2.0 toView:toView];
-//                        [lineView whc_Width:self.whc_SegmentLineSize];
-//                        [view whc_LeftSpace:self.horizontalSpacing / 2.0 toView:lineView];
-//                    }else {
-//                        [view whc_LeftSpace:self.horizontalSpacing toView:toView];
-//                    }
-//                }
+
                 [self appendHorizontal:view from:toView to:nextView];
                 
                 toView = view;

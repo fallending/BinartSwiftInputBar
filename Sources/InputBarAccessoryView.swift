@@ -128,9 +128,9 @@ open class InputBarAccessoryView: UIView {
         let stackView = BAStackView() //InputStackView(axis: .horizontal, spacing: 0)
         stackView.flex.direction = BADirectionRow // 水平为主轴，且从左往右排列，纵轴为交叉轴
         stackView.flex.align = BAAlignItemsEnd // 交叉轴从下而上排列
-        stackView.arrangedSubviewHeight = 40
+        stackView.arrangedSubviewHeight = 33
         
-        stackView.padding.bottom = 10
+        stackView.padding.bottom = 0
         stackView.horizontalSpacing = 0
         stackView.verticalSpacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -148,11 +148,11 @@ open class InputBarAccessoryView: UIView {
         let stackView = BAStackView() //InputStackView(axis: .horizontal, spacing: 0)
         stackView.flex.direction = BADirectionRow
         stackView.flex.align = BAAlignItemsEnd // 交叉轴从下而上排列
-        stackView.arrangedSubviewHeight = 40
+        stackView.arrangedSubviewHeight = 33
         
-        stackView.padding.bottom = 10
+        stackView.padding.bottom = 0
         stackView.verticalSpacing = 0
-        stackView.horizontalSpacing = 10
+        stackView.horizontalSpacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -254,7 +254,7 @@ open class InputBarAccessoryView: UIView {
      ````
      
      */
-    open var padding: UIEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12) {
+    open var padding: UIEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: -6, right: 12) {
         didSet {
             updatePadding()
         }
@@ -289,7 +289,7 @@ open class InputBarAccessoryView: UIView {
      ````
      
      */
-    open var middleContentViewPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8) {
+    open var middleContentViewPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4) {
         didSet {
 //            updateMiddleContentViewPadding()
         }
@@ -496,7 +496,6 @@ open class InputBarAccessoryView: UIView {
         
         middleContentViewWrapper.addSubview(inputTextView) // inputTextView fill middleContentViewWrapper
         middleContentView = inputTextView
-//        setStackViewItems([sendButton], forStack: .right, animated: false)
     }
     
     /// Sets up the initial constraints of each subview
@@ -510,19 +509,19 @@ open class InputBarAccessoryView: UIView {
 
         backgroundView.whc_TopSpace(0)
         backgroundView.whc_BottomSpace(0)
-        backgroundView.whc_LeftSpace(frameInsets.left)
-        backgroundView.whc_RightSpace(frameInsets.right)
+        backgroundView.whc_LeftSpace(0)
+        backgroundView.whc_RightSpace(0)
 
         
         contentView.whc_TopSpace(padding.top)
         contentView.whc_BottomSpace(-padding.bottom)
-        contentView.whc_LeftSpace(padding.left + frameInsets.left)
-        contentView.whc_RightSpace(padding.right + frameInsets.right)
+        contentView.whc_LeftSpace(padding.left)
+        contentView.whc_RightSpace(padding.right)
 
         // Constraints Within the contentView
         middleContentViewWrapper.whc_TopSpace(middleContentViewPadding.top)
         middleContentViewWrapper.whc_LeftSpace(middleContentViewPadding.left, toView: leftStackView)
-        middleContentViewWrapper.whc_RightSpace(-middleContentViewPadding.right, toView: rightStackView)
+        middleContentViewWrapper.whc_RightSpace(middleContentViewPadding.right, toView: rightStackView)
         middleContentViewWrapper.whc_BottomSpace(-middleContentViewPadding.bottom, toView: bottomStackView)
         
         inputTextView.fillSuperview()

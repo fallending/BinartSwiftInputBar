@@ -73,54 +73,6 @@
     return line;
 }
 
-//- (void)appendVertical:(UIView *)view {
-//    switch (self.alignment) {
-//        case BAStackViewAlignmentLeading:
-//            [view whc_TopSpace:self.padding.top];
-//
-//            break;
-//
-//        case BAStackViewAlignmentTrailing:
-//            [view whc_BottomSpace:self.padding.bottom];
-//            break;
-//
-//        default:
-//            // 不支持！！！
-//            break;
-//    }
-//
-//    [view whc_LeftSpace:self.padding.left];
-//}
-//
-//- (void)appendVertical:(UIView *)view next:(UIView *)toView {
-//    BOOL need = self.whc_SegmentLineSize > 0;
-//
-//    switch (self.alignment) {
-//        case BAStackViewAlignmentLeading: {
-//            toView = need ? [self addSegmentLineTo:toView]:toView;
-//            CGFloat vspacing = need ? self.verticalSpacing/2 : self.verticalSpacing;
-//
-//            [view whc_TopSpace:vspacing toView:toView];
-//        }
-//            break;
-//
-//        case BAStackViewAlignmentTrailing: {
-//
-//            toView = need ? [self addSegmentLineTo:toView]:toView;
-//            CGFloat vspacing = need ? self.verticalSpacing/2 : self.verticalSpacing;
-//
-//            [view whc_BottomSpace:vspacing toView:toView];
-//        }
-//            break;
-//
-//        default:
-//            // 不支持！！！
-//            break;
-//    }
-//
-//    [view whc_LeftSpace:self.padding.left];
-//}
-
 - (void)appendVertical:(UIView *)view from:(UIView *)frontView to:(UIView *)nextView {
     BOOL needLine = self.whc_SegmentLineSize > 0;
 
