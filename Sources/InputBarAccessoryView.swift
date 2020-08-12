@@ -128,7 +128,9 @@ open class InputBarAccessoryView: UIView {
         let stackView = BAStackView() //InputStackView(axis: .horizontal, spacing: 0)
         stackView.flex.direction = BADirectionRow // 水平为主轴，且从左往右排列，纵轴为交叉轴
         stackView.flex.align = BAAlignItemsEnd // 交叉轴从下而上排列
+        stackView.arrangedSubviewHeight = 40
         
+        stackView.padding.bottom = 10
         stackView.horizontalSpacing = 0
         stackView.verticalSpacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -148,7 +150,7 @@ open class InputBarAccessoryView: UIView {
         stackView.flex.align = BAAlignItemsEnd // 交叉轴从下而上排列
         stackView.arrangedSubviewHeight = 40
         
-        stackView.padding.bottom = 14
+        stackView.padding.bottom = 10
         stackView.verticalSpacing = 0
         stackView.horizontalSpacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false

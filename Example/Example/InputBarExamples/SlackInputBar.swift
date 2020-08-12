@@ -11,7 +11,9 @@ import BinartSwiftInputBar
 
 class SlackInputBar: InputBarAccessoryView {
     
-    var extended: Bool = false
+    var emoticonExtended: Bool = false
+    var voiceExtended: Bool = false
+    var extExtended: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,42 +54,63 @@ class SlackInputBar: InputBarAccessoryView {
         inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         
-        let maxSizeItem = InputBarButtonItem()
+        let emoticonItem = InputBarButtonItem()
             .configure {
-                $0.image = UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate)
+                $0.image = UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
                 $0.tintColor = .darkGray
-                $0.setSize(CGSize(width: 20, height: 20), animated: false)
+                $0.setSize(CGSize(width: 30, height: 30), animated: false)
             }.onSelected {
-                $0.image = self.extended ? UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "icons8-collapse")?.withRenderingMode(.alwaysTemplate)
+                self.emoticonExtended = !self.emoticonExtended
                 
-                if self.extended {
-                    self.setStackViewItems([], forStack: .bottom, animated: true)
-                } else {
+                $0.image = self.emoticonExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
+                
+                if self.emoticonExtended {
                     self.setStackViewItems(items, forStack: .bottom, animated: true)
+                } else {
+                    self.setStackViewItems([], forStack: .bottom, animated: true)
                 }
-                
-                self.extended = !self.extended
             }
         
-        let maxSizeItem1 = InputBarButtonItem()
+        let extItem = InputBarButtonItem()
         .configure {
-            $0.image = UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate)
+            $0.image = UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
             $0.tintColor = .darkGray
-            $0.setSize(CGSize(width: 20, height: 20), animated: false)
+            $0.setSize(CGSize(width: 30, height: 30), animated: false)
         }.onSelected {
-            $0.image = self.extended ? UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "icons8-collapse")?.withRenderingMode(.alwaysTemplate)
+            self.extExtended = !self.extExtended
             
-            if self.extended {
-                self.setStackViewItems([], forStack: .bottom, animated: true)
-            } else {
+            $0.image = self.extExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
+            
+            if self.extExtended {
                 self.setStackViewItems(items, forStack: .bottom, animated: true)
+            } else {
+                self.setStackViewItems([], forStack: .bottom, animated: true)
             }
-            
-            self.extended = !self.extended
         }
         
-        setStackViewItems([maxSizeItem, maxSizeItem1], forStack: .right, animated: false)
-        setRightStackViewWidthConstant(to: 50, animated: false)
+        setStackViewItems([emoticonItem, extItem], forStack: .right, animated: false)
+        setRightStackViewWidthConstant(to: 60, animated: false)
+        
+        
+        let voiceItem = InputBarButtonItem()
+        .configure {
+            $0.image = UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
+            $0.tintColor = .darkGray
+            $0.setSize(CGSize(width: 30, height: 30), animated: false)
+        }.onSelected {
+            self.voiceExtended = !self.voiceExtended
+            
+            $0.image = self.voiceExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
+            
+            if self.voiceExtended {
+                self.setStackViewItems(items, forStack: .bottom, animated: true)
+            } else {
+                self.setStackViewItems([], forStack: .bottom, animated: true)
+            }
+        }
+        
+        setStackViewItems([voiceItem], forStack: .left, animated: false)
+        setLeftStackViewWidthConstant(to: 25, animated: false)
     }
     
     private func makeButton(named: String) -> InputBarButtonItem {
