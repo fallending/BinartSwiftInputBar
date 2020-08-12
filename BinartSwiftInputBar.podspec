@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
     # 1 - Specs
     s.platform = :ios
-    s.ios.deployment_target = '11.0'
+    s.ios.deployment_target = '9.0'
     s.name = 'BinartSwiftInputBar'
     s.summary = "Some Extension for nathantannar4/InputBarAccessoryView"
     s.description  = "Featuring reactive changes, autocomplete, image paste support and so much more."
