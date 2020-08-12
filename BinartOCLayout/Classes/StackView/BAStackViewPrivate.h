@@ -7,11 +7,6 @@
 
 #import "BALayoutUtil.h"
 
-/// 填充空白视图类
-@interface WHC_VacntView : UIView
-
-@end
-
 /// 分割线视图
 @interface BAStackViewLineView : UIView
 

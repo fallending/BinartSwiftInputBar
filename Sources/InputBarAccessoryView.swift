@@ -126,7 +126,9 @@ open class InputBarAccessoryView: UIView {
      */
     public let leftStackView: BAStackView = {
         let stackView = BAStackView() //InputStackView(axis: .horizontal, spacing: 0)
-        stackView.axis = BALayoutAxisHorizontal // FIXME: don't use Orientation as name!!!! WhatAFuck....
+        stackView.flex.direction = BADirectionRow // 水平为主轴，且从左往右排列，纵轴为交叉轴
+        stackView.flex.align = BAAlignItemsEnd // 交叉轴从下而上排列
+        
         stackView.horizontalSpacing = 0
         stackView.verticalSpacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -142,8 +144,9 @@ open class InputBarAccessoryView: UIView {
      */
     public let rightStackView: BAStackView = {
         let stackView = BAStackView() //InputStackView(axis: .horizontal, spacing: 0)
-        stackView.axis = BALayoutAxisHorizontal
-        stackView.alignment = BAStackViewAlignmentTrailing
+        stackView.flex.direction = BADirectionRow
+        stackView.flex.align = BAAlignItemsEnd // 交叉轴从下而上排列
+        
         stackView.padding.bottom = 14
         stackView.verticalSpacing = 0
         stackView.horizontalSpacing = 10
@@ -160,7 +163,10 @@ open class InputBarAccessoryView: UIView {
      */
     public let bottomStackView: BAStackView = {
        let stackView = BAStackView() //InputStackView(axis: .horizontal, spacing: 15)
-        stackView.axis = BALayoutAxisAll
+        stackView.flex.direction = BADirectionRow
+        stackView.flex.align = BAAlignItemsStart
+        stackView.flex.wrap = BAWrapWrap
+        
         stackView.columns = 4
         stackView.verticalSpacing = 20
         stackView.horizontalSpacing = 28

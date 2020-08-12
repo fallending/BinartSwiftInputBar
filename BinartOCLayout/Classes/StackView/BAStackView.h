@@ -1,46 +1,7 @@
 
 #import "UIView+BALayout.h"
-
-typedef enum : NSUInteger {
-    BALayoutAxisVertical = 1 << 0,      /// 垂直布局
-    BALayoutAxisHorizontal = 1 << 1,    /// 横向布局
-    BALayoutAxisAll = 1 << 2,           /// 垂直布局和横向布局
-    
-    BAStackViewAxisVertical = BALayoutAxisVertical,
-    BAStackViewAxisHorizontal = BALayoutAxisHorizontal,
-    BAStackViewAxisAll = BALayoutAxisAll,
-} BAStackViewAxis;
-
-typedef BAStackViewAxis BALayoutAxis;
-
-typedef enum : NSUInteger {
-    /* Align the leading and trailing edges of vertically stacked items
-    or the top and bottom edges of horizontally stacked items tightly to the container.
-    */
-    BAStackViewAlignmentFill = 1 << 0,
-    /* Align the leading edges of vertically stacked items
-    or the top edges of horizontally stacked items tightly to the relevant edge
-    of the container
-    */
-    BAStackViewAlignmentLeading = 1 << 1,
-    /* Center the items in a vertical stack horizontally
-    or the items in a horizontal stack vertically
-    */
-    BAStackViewAlignmentCenter = 1 << 2,      /// 从上面开始
-    /* Align the trailing edges of vertically stacked items
-    or the bottom edges of horizontally stacked items tightly to the relevant
-    edge of the container
-    */
-    BAStackViewAlignmentTrailing = 1 << 3,   /// 从下面开始
-} BAStackViewAlignment;
-
-typedef enum : NSUInteger {
-    BAStackViewDistributionFill = 1 << 0,
-    BAStackViewDistributionFillEqually = 1 << 1,
-    BAStackViewDistributionFillProportionally = 1 << 2,
-    BAStackViewDistributionEqualSpacing = 1 << 3,
-    BAStackViewDistributionEqualCentering = 1 << 4,
-} BAStackViewDistribution;
+#import "BAFlex.h"
+#import "BABox.h"
 
 // MARK: = UI自动布局StackView容器
 
@@ -59,44 +20,46 @@ typedef enum : NSUInteger {
 @interface BAStackView : UIView
 
 /// 混合布局(同时垂直和横向)每行多少列
-@property (nonatomic , assign) NSInteger columns;
+@property (nonatomic, assign) NSInteger columns;
 
 /// 容器内边距
-@property (nonatomic , assign) UIEdgeInsets padding;
+@property (nonatomic, assign) UIEdgeInsets padding;
 
 /// 容器内子控件横向间隙
-@property (nonatomic , assign) CGFloat horizontalSpacing;
+@property (nonatomic, assign) CGFloat horizontalSpacing;
+
 /// 容器内子控件垂直间隙
-@property (nonatomic , assign) CGFloat verticalSpacing;
+@property (nonatomic, assign) CGFloat verticalSpacing;
 
 /// 子元素高宽比
-@property (nonatomic , assign) CGFloat heightWidthRatio;
+@property (nonatomic, assign) CGFloat heightWidthRatio;
 
 /// 子元素宽高比
-@property (nonatomic , assign) CGFloat widthHeightRatio;
+@property (nonatomic, assign) CGFloat widthHeightRatio;
+
+@property (nonatomic, assign) BABox box;
+
+/// Flex config
+@property (nonatomic, assign) BAFlex flex; // 必须要自行设置
 
 /* A stack with a horizontal axis is a row of arrangedSubviews,
 and a stack with a vertical axis is a column of arrangedSubviews.
  */
 
 /// 容器自动布局轴向, required
-@property (nonatomic , assign) BALayoutAxis axis;
-
-/* The layout of the arrangedSubviews along the axis
-*/
-@property (nonatomic, assign) BAStackViewDistribution distribution;
+//@property (nonatomic, assign) BALayoutAxis axis;
 
 /* The layout of the arrangedSubviews transverse to the axis;
 e.g., leading/trailing edges in a vertical stack
 */
 /// 容器自动布局方向, required
-@property (nonatomic , assign) BAStackViewAlignment alignment; // 新增
+//@property (nonatomic, assign) BAStackViewAlignment alignment;
 
 /// 子视图固定宽度
-@property (nonatomic , assign) CGFloat arrangedSubviewWidth;
+@property (nonatomic, assign) CGFloat arrangedSubviewWidth;
 
 /// 子视图固定高度
-@property (nonatomic , assign) CGFloat arrangedSubviewHeight;
+@property (nonatomic, assign) CGFloat arrangedSubviewHeight;
 
 /// 设置分割线尺寸
 @property (nonatomic , assign) CGFloat whc_SegmentLineSize;
