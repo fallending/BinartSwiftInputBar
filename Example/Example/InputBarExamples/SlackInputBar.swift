@@ -28,20 +28,30 @@ class SlackInputBar: InputBarAccessoryView {
         self.inputTextView.backgroundColor = .red
         
         let items = [
-            makeButton(named: "ic_camera").onTextViewDidChange { button, textView in
+            makeButton(named: "ic_camera").configure({ (item) in
+                item.title = "照片"
+            }).onTextViewDidChange { button, textView in
                 button.isEnabled = textView.text.isEmpty
-                }.onSelected {
+            }.onSelected {
                     $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
             },
-            makeButton(named: "ic_at").onSelected {
+            makeButton(named: "ic_at")
+                .configure({ (item) in
+                    item.title = "sss"
+                }).onSelected {
                 self.inputPlugins.forEach { _ = $0.handleInput(of: "@" as AnyObject) }
                 $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
             },
-            makeButton(named: "ic_hashtag").onSelected {
+            makeButton(named: "ic_hashtag").configure({ (item) in
+                item.title = "照片"
+            }).onSelected {
                 self.inputPlugins.forEach { _ = $0.handleInput(of: "#" as AnyObject) }
                 $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
             },
             makeButton(named: "ic_library")
+                .configure({ (item) in
+                    item.title = "照片"
+                })
                 .onSelected {
                     $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
                     let imagePicker = UIImagePickerController()

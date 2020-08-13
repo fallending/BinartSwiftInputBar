@@ -25,6 +25,25 @@ final class InputAccessoryExampleViewController: CommonTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        inputBar.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        KeyboardCustomize.shared.enable(context: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        KeyboardCustomize.shared.disable()
+    }
+    
+    // MARK: -
+    
+//    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+//        print("send \(text)")
+//    }
 }

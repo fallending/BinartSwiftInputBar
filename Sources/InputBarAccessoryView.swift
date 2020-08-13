@@ -29,7 +29,7 @@ import UIKit
 import BinartOCLayout
 
 /// A powerful InputAccessoryView ideal for messaging applications
-open class InputBarAccessoryView: UIView {
+open class InputBarAccessoryView: UIView, UITextViewDelegate {
     
     // MARK: - Properties
     
@@ -171,11 +171,11 @@ open class InputBarAccessoryView: UIView {
         stackView.flex.wrap = BAWrapWrap
         
         stackView.columns = 4
-        stackView.verticalSpacing = 20
+        stackView.padding = UIEdgeInsets(top: 20, left: 12, bottom: 12, right: 12)
+        stackView.verticalSpacing = 0
         stackView.horizontalSpacing = 28
-//        stackView.arrangedSubviewWidth
-        stackView.arrangedSubviewHeight = 85
-        stackView.arrangedSubviewWidth = 60
+        stackView.arrangedSubviewHeight = 50
+        stackView.arrangedSubviewWidth = 50
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -204,21 +204,16 @@ open class InputBarAccessoryView: UIView {
         let inputTextView = InputTextView()
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
         inputTextView.inputBarAccessoryView = self
+        // UIReturnKeySearch
+        // UIReturnKeyJoin
+        // UIReturnKeyNext
+        // UIReturnKeyDone
+        // UIReturnKeySend
+        inputTextView.returnKeyType = .send
+        inputTextView.keyboardType = .default
+        inputTextView.delegate = self
         return inputTextView
     }()
-    
-    /// A InputBarButtonItem used as the send button and initially placed in the rightStackView
-//    open var sendButton: InputBarSendButton = {
-//        return InputBarSendButton()
-//            .configure {
-//                $0.setSize(CGSize(width: 52, height: 36), animated: false)
-//                $0.isEnabled = false
-//                $0.title = "Send"
-//                $0.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-//            }.onTouchUpInside {
-//                $0.inputBarAccessoryView?.didSelectSendButton()
-//        }
-//    }()
 
     /**
      The anchor contants used to add horizontal inset from the InputBarAccessoryView and the
@@ -967,5 +962,26 @@ open class InputBarAccessoryView: UIView {
     /// Invalidates each of the InputPlugins
     open func didSelectSendButton() {
         delegate?.inputBar(self, didPressSendButtonWith: inputTextView.text)
+        
+        inputTextView.text = String()
+        
+        inputTextView.resignFirstResponder()
+    }
+    
+    // MARK: =
+    
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if (text.elementsEqual("\n")) {
+            
+            if (textView.text != nil && textView.text.count > 0) {
+                // 发送！！！
+                didSelectSendButton()
+            }
+            
+            return false
+        }
+        
+        return true
     }
 }

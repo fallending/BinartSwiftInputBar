@@ -25,12 +25,12 @@ class CommonTableViewController: UIViewController, UITableViewDataSource, UITabl
     }()
     
     /// The object that manages autocomplete
-    open lazy var autocompleteManager: AutocompleteManager = { [unowned self] in
-        let manager = AutocompleteManager(for: self.inputBar.inputTextView)
-        manager.delegate = self
-        manager.dataSource = self
-        return manager
-    }()
+//    open lazy var autocompleteManager: AutocompleteManager = { [unowned self] in
+//        let manager = AutocompleteManager(for: self.inputBar.inputTextView)
+//        manager.delegate = self
+//        manager.dataSource = self
+//        return manager
+//    }()
     
     var hashtagAutocompletes: [AutocompleteCompletion] = {
         var array: [AutocompleteCompletion] = []
@@ -72,15 +72,15 @@ class CommonTableViewController: UIViewController, UITableViewDataSource, UITabl
         ])
         
         inputBar.delegate = self
-        inputBar.inputTextView.keyboardType = .twitter
+//        inputBar.inputTextView.keyboardType = .twitter
  
         // Configure AutocompleteManager
-        autocompleteManager.register(prefix: "@", with: [.font: UIFont.preferredFont(forTextStyle: .body),.foregroundColor: UIColor(red: 0, green: 122/255, blue: 1, alpha: 1),.backgroundColor: UIColor(red: 0, green: 122/255, blue: 1, alpha: 0.1)])
-        autocompleteManager.register(prefix: "#")
-        autocompleteManager.maxSpaceCountDuringCompletion = 1 // Allow for autocompletes with a space
-        
+//        autocompleteManager.register(prefix: "@", with: [.font: UIFont.preferredFont(forTextStyle: .body),.foregroundColor: UIColor(red: 0, green: 122/255, blue: 1, alpha: 1),.backgroundColor: UIColor(red: 0, green: 122/255, blue: 1, alpha: 0.1)])
+//        autocompleteManager.register(prefix: "#")
+//        autocompleteManager.maxSpaceCountDuringCompletion = 1 // Allow for autocompletes with a space
+//
         // Set plugins
-        inputBar.inputPlugins = [autocompleteManager, attachmentManager]
+//        inputBar.inputPlugins = [autocompleteManager, attachmentManager]
         
         // RTL Support
 //        autocompleteManager.paragraphStyle.baseWritingDirection = .rightToLeft
@@ -115,18 +115,19 @@ extension CommonTableViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         
+        print("send \(text)")
         // Here we can parse for which substrings were autocompleted
-        let attributedText = inputBar.inputTextView.attributedText!
-        let range = NSRange(location: 0, length: attributedText.length)
-        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
-            
-            let substring = attributedText.attributedSubstring(from: range)
-            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
-            print("Autocompleted: `", substring, "` with context: ", context ?? [])
-        }
-
-        inputBar.inputTextView.text = String()
-        inputBar.invalidatePlugins()
+//        let attributedText = inputBar.inputTextView.attributedText!
+//        let range = NSRange(location: 0, length: attributedText.length)
+//        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (attributes, range, stop) in
+//
+//            let substring = attributedText.attributedSubstring(from: range)
+//            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
+//            print("Autocompleted: `", substring, "` with context: ", context ?? [])
+//        }
+//
+//        inputBar.inputTextView.text = String()
+//        inputBar.invalidatePlugins()
 
         // Send button activity animation
 //        inputBar.sendButton.startAnimating()
@@ -152,21 +153,21 @@ extension CommonTableViewController: InputBarAccessoryViewDelegate {
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-        
-        guard autocompleteManager.currentSession != nil, autocompleteManager.currentSession?.prefix == "#" else { return }
-        // Load some data asyncronously for the given session.prefix
-        DispatchQueue.global(qos: .default).async {
-            // fake background loading task
-            var array: [AutocompleteCompletion] = []
-            for _ in 1...10 {
-                array.append(AutocompleteCompletion(text: Lorem.word()))
-            }
-            sleep(1)
-            DispatchQueue.main.async { [weak self] in
-                self?.asyncCompletions = array
-                self?.autocompleteManager.reloadData()
-            }
-        }
+//
+//        guard autocompleteManager.currentSession != nil, autocompleteManager.currentSession?.prefix == "#" else { return }
+//        // Load some data asyncronously for the given session.prefix
+//        DispatchQueue.global(qos: .default).async {
+//            // fake background loading task
+//            var array: [AutocompleteCompletion] = []
+//            for _ in 1...10 {
+//                array.append(AutocompleteCompletion(text: Lorem.word()))
+//            }
+//            sleep(1)
+//            DispatchQueue.main.async { [weak self] in
+//                self?.asyncCompletions = array
+//                self?.autocompleteManager.reloadData()
+//            }
+//        }
     }
     
 }
