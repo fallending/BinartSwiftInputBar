@@ -25,7 +25,13 @@ import UIKit
     /// .none
     func onPressStop()
     
+    /// .inside
+    func onPressFocus()
+    
     /// .outsize
+    func onPressMiss()
+    
+    /// .none
     func onPressCancel()
     
     /// Tells the delegate that a tool tip should be presented when a short press occured.
@@ -331,6 +337,12 @@ public enum BARecordButtonMode {
     
     fileprivate func buttonMissed(_ indeed: Bool) {
         recordState = indeed ? .outside : .inside
+        
+        if (recordState == .outside) {
+            delegate?.onPressMiss()
+        } else {
+            delegate?.onPressFocus()
+        }
         
         switch BARecordButton.displayMode {
         case .image:

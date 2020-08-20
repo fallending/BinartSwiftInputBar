@@ -3253,5 +3253,16 @@ static const int kBottom_Line_Tag = kTop_Line_Tag + 1;
     return line;
 }
 #endif
+
+// MARK: - 重构
+//- (void)setBox:(NSLayoutConstraint *)currentConstraint {
+//    objc_setAssociatedObject(self, @selector(currentConstraint), currentConstraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+//}
+//
+//- (BABoxEngine *)box {
+//    return objc_getAssociatedObject(self, _cmd);
+//}
+
+
 @end
 

@@ -22,6 +22,8 @@ typedef struct BABox {
 
 @interface BABoxEngine : NSObject
 
+@property (nonatomic, weak) UIView *target; // 修饰的目标视图
+
 @end
 
 NS_ASSUME_NONNULL_END

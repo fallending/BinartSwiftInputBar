@@ -1,5 +1,6 @@
 
 #import "BALayoutUtil.h"
+#import "BABox.h"
 
 typedef UIView * (^IsSafe)(BOOL);
 
@@ -237,7 +238,7 @@ typedef UIView * (^FrameEqual)(NSObject * view);
 @property (nonatomic ,copy , readonly)SizeEqual whc_SizeEqualView;
 
 /// frame设置(NSObject * view)
-@property (nonatomic ,copy , readonly)FrameEqual whc_FrameEqualView;
+@property (nonatomic ,copy , readonly)FrameEqual whc_FrameEqualView; // seven: 用途不大
 #pragma mark - api version ~ 1.0 -
 
 
@@ -973,5 +974,9 @@ typedef UIView * (^FrameEqual)(NSObject * view);
  */
 
 - (UIView *)whc_AddRightLine:(CGFloat)value lineColor:(UIColor *)color padding:(CGFloat)padding;
+
+// MARK: - 重构
+
+//@property (nonatomic, assign) BABox box;
 
 @end

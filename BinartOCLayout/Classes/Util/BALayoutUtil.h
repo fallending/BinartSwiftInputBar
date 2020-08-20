@@ -47,3 +47,5 @@ typedef struct __attribute__((objc_boxable)) BAMargin {
 typedef UIView *(^ BAVoidBlock)(void);
 typedef UIView *(^ BAValueBlock)(CGFloat value);
 typedef UIView *(^ BAValueAgainstBlock)(CGFloat value , NSObject *toView);
+
+//const static CGFloat CGPointZero;// = CGPointMake(0, 0);

@@ -27,6 +27,7 @@ class SlackInputBar: InputBarAccessoryView {
     func configure() {
         self.inputTextView.backgroundColor = .red
         
+        // MARK: = 底部扩展按钮
         let items = [
             makeButton(named: "ic_camera").configure({ (item) in
                 item.title = "照片"
@@ -62,10 +63,13 @@ class SlackInputBar: InputBarAccessoryView {
         ]
         items.forEach { $0.tintColor = .lightGray }
         
+        // MARK: = 输入框
+        
         // We can change the container insets if we want
         inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         
+        //
         let emoticonItem = InputBarButtonItem()
             .configure {
                 $0.image = UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
@@ -93,6 +97,13 @@ class SlackInputBar: InputBarAccessoryView {
             
             $0.image = self.extExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
             
+            self.bottomStackView.columns = 4
+            self.bottomStackView.padding = UIEdgeInsets(top: 20, left: 12, bottom: 12, right: 12)
+            self.bottomStackView.verticalSpacing = 0
+            self.bottomStackView.horizontalSpacing = 28
+            self.bottomStackView.arrangedSubviewHeight = 50
+            self.bottomStackView.arrangedSubviewWidth = 50
+            
             if self.extExtended {
                 self.setStackViewItems(items, forStack: .bottom, animated: true)
             } else {
@@ -103,6 +114,9 @@ class SlackInputBar: InputBarAccessoryView {
         setStackViewItems([emoticonItem, extItem], forStack: .right, animated: false)
         setRightStackViewWidthConstant(to: 60, animated: false)
         
+        // MARK: =
+        
+        let bottomRecordView = BAVoiceRecordView()
         
         let voiceItem = InputBarButtonItem()
         .configure {
@@ -114,8 +128,18 @@ class SlackInputBar: InputBarAccessoryView {
             
             $0.image = self.voiceExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
             
+//            self.bottomStackView.flex.direction = BADirectionRow
+//            self.bottomStackView.flex.align = BAAlignItemsStart
+//            self.bottomStackView.flex.wrap = BAWrapWrap
+            self.bottomStackView.columns = 1
+            self.bottomStackView.padding = UIEdgeInsets(top: 30, left: 12, bottom: 12, right: 12)
+            self.bottomStackView.verticalSpacing = 0
+            self.bottomStackView.horizontalSpacing = 0
+            self.bottomStackView.arrangedSubviewHeight = 120
+            self.bottomStackView.arrangedSubviewWidth = 0
+            
             if self.voiceExtended {
-                self.setStackViewItems(items, forStack: .bottom, animated: true)
+                self.setStackViewItems([bottomRecordView], forStack: .bottom, animated: true)
             } else {
                 self.setStackViewItems([], forStack: .bottom, animated: true)
             }

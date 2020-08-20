@@ -16,7 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        UIStackView
+        BARecordButton.displayMode = .image
+        BARecordButton.normalImage = UIImage(named: "record_btn_normal")!
+        BARecordButton.highlightImage = UIImage(named: "record_btn_highlight")!
+        BARecordButton.missupImage = UIImage(named: "record_btn_missup")!
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = UINavigationController(rootViewController: InputBarStyleSelectionController())
