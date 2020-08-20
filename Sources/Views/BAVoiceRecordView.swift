@@ -88,7 +88,7 @@ open class BAVoiceRecordView: UIView, InputItem {
         // 提示语覆盖在声浪上，且居中
         tipLabel = UILabel()
         tipLabel.text = "按住开始说话"
-        tipLabel.text = "10\"结束将自动发送"
+//        tipLabel.text = "10\"结束将自动发送"
         tipLabel.font = .systemFont(ofSize: 12)
         tipLabel.textColor = .lightGray
         tipLabel.textAlignment = .center
@@ -101,6 +101,16 @@ open class BAVoiceRecordView: UIView, InputItem {
     
     // MARK: = 控制
     
+    public func setTipProgress(value: Int32) {
+        tipLabel.text = "\(value)\"结束将自动发送"
+    }
+    
+    /// 由于外部提供时钟，需要提供主动关闭操作
+    public func setRecordComplete() {
+        recordBtn.buttonForceStop()
+        
+        tipLabel.text = "按住开始说话"
+    }
     
     // MARK: - InputItem Protocol
     

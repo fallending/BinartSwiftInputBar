@@ -140,6 +140,11 @@ class SlackInputBar: InputBarAccessoryView {
             
             if self.voiceExtended {
                 self.setStackViewItems([bottomRecordView], forStack: .bottom, animated: true)
+                
+                let delayTime = DispatchTime.now() + Double(Int64(Double(5) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) { 
+                    bottomRecordView.setRecordComplete()
+                }
             } else {
                 self.setStackViewItems([], forStack: .bottom, animated: true)
             }
