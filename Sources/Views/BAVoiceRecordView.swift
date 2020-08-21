@@ -149,14 +149,20 @@ extension BAVoiceRecordView: BARecordButtonDelegate {
     
     public func onPressStart() {
         tipLabel.text = "上滑取消"
+        
+        delegate?.onPressStart()
     }
     
     public func onPressStop() {
         tipLabel.text = "按住开始说话"
+        
+        delegate?.onPressStop()
     }
     
     public func onPressCancel() {
         tipLabel.text = "按住开始说话"
+        
+        delegate?.onPressCancel()
     }
     
     public func onPressFocus() {
