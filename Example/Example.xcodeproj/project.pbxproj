@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14A9690224F391D300277CFD /* abi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 14A968FF24F391D300277CFD /* abi.bundle */; };
+		14A9690324F391D300277CFD /* ExampleSticker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 14A9690024F391D300277CFD /* ExampleSticker.bundle */; };
+		14A9690424F391D300277CFD /* ExampleSticker.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14A9690124F391D300277CFD /* ExampleSticker.plist */; };
 		3821ADE120F534DA00DE0D1D /* SubviewExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821ADDF20F534DA00DE0D1D /* SubviewExampleViewController.swift */; };
 		3821ADE220F534DA00DE0D1D /* InputAccessoryExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821ADE020F534DA00DE0D1D /* InputAccessoryExampleViewController.swift */; };
 		3821ADE420F5359800DE0D1D /* CommonTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3821ADE320F5359800DE0D1D /* CommonTableViewController.swift */; };
@@ -44,6 +47,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		14A968FF24F391D300277CFD /* abi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = abi.bundle; sourceTree = "<group>"; };
+		14A9690024F391D300277CFD /* ExampleSticker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ExampleSticker.bundle; sourceTree = "<group>"; };
+		14A9690124F391D300277CFD /* ExampleSticker.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ExampleSticker.plist; sourceTree = "<group>"; };
 		34CD3FA3E8DA5AC3DA999352 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3821ADDF20F534DA00DE0D1D /* SubviewExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubviewExampleViewController.swift; sourceTree = "<group>"; };
 		3821ADE020F534DA00DE0D1D /* InputAccessoryExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputAccessoryExampleViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +110,9 @@
 		383B839B1F47897800027965 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				14A968FF24F391D300277CFD /* abi.bundle */,
+				14A9690024F391D300277CFD /* ExampleSticker.bundle */,
+				14A9690124F391D300277CFD /* ExampleSticker.plist */,
 				383B839C1F47897800027965 /* AppDelegate.swift */,
 				38FCF9D5219F797600A47350 /* READMEPreviewViewController.swift */,
 				388714E8202AC9620064C8BB /* InputBarStyleSelectionController.swift */,
@@ -236,6 +245,9 @@
 			files = (
 				383B83A11F47897800027965 /* Assets.xcassets in Resources */,
 				383B83A41F47897800027965 /* LaunchScreen.storyboard in Resources */,
+				14A9690324F391D300277CFD /* ExampleSticker.bundle in Resources */,
+				14A9690424F391D300277CFD /* ExampleSticker.plist in Resources */,
+				14A9690224F391D300277CFD /* abi.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +263,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BinartOCLayout/BinartOCLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/BinartOCPlotView/BinartOCPlotView.framework",
+				"${BUILT_PRODUCTS_DIR}/BinartOCStickerKeyboard/BinartOCStickerKeyboard.framework",
 				"${BUILT_PRODUCTS_DIR}/BinartSwiftInputBar/BinartSwiftInputBar.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 			);
@@ -258,6 +271,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BinartOCLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BinartOCPlotView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BinartOCStickerKeyboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BinartSwiftInputBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 			);

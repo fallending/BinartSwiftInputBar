@@ -8,6 +8,7 @@
 
 import UIKit
 import BinartSwiftInputBar
+import BinartOCStickerKeyboard
 
 class SlackInputBar: InputBarAccessoryView {
     
@@ -69,7 +70,16 @@ class SlackInputBar: InputBarAccessoryView {
         inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         
-        //
+        // 表情扩展
+        BAStickerConfig.shared.deleteImage = UIImage.init(named: "delete-emoji") ?? UIImage()
+        BAStickerConfig.shared.previewImage = UIImage.init(named: "emoji-preview-bg") ?? UIImage()
+        BAStickerConfig.shared.toggleEmoji = UIImage.init(named: "toggle_emoji") ?? UIImage()
+        BAStickerConfig.shared.toggleKeyboard = UIImage.init(named: "toggle_keyboard") ?? UIImage()
+        BAStickerConfig.shared.configFile = "ExampleSticker.plist";
+        BAStickerConfig.shared.config()
+        
+        let emoticonView = PPStickerKeyboard()
+        
         let emoticonItem = InputBarButtonItem()
             .configure {
                 $0.image = UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
@@ -80,13 +90,22 @@ class SlackInputBar: InputBarAccessoryView {
                 
                 $0.image = self.emoticonExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
                 
+                self.bottomStackView.columns = 1
+                self.bottomStackView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                self.bottomStackView.verticalSpacing = 0
+                self.bottomStackView.horizontalSpacing = 0
+                self.bottomStackView.arrangedSubviewHeight = emoticonView.heightThatFits()
+                self.bottomStackView.arrangedSubviewWidth = 0
+                
+                
                 if self.emoticonExtended {
-                    self.setStackViewItems(items, forStack: .bottom, animated: true)
+                    self.setStackViewItems([emoticonView], forStack: .bottom, animated: true)
                 } else {
                     self.setStackViewItems([], forStack: .bottom, animated: true)
                 }
             }
         
+        // 功能扩展区域
         let extItem = InputBarButtonItem()
         .configure {
             $0.image = UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
@@ -142,7 +161,7 @@ class SlackInputBar: InputBarAccessoryView {
                 self.setStackViewItems([bottomRecordView], forStack: .bottom, animated: true)
                 
                 let delayTime = DispatchTime.now() + Double(Int64(Double(5) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                DispatchQueue.main.asyncAfter(deadline: delayTime) { 
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
                     bottomRecordView.setRecordComplete()
                 }
             } else {
