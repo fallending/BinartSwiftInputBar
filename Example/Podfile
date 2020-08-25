@@ -8,7 +8,7 @@ target 'Example' do
   # Pods for Example
   
   # 暂时让InputBar包容Layout
-  pod 'BinartOCStickerKeyboard', :git => 'https://github.com/fallending/BinartOCStickerKeyboard-iOS.git', :tag => '0.1.0'
+  pod 'BinartOCStickerKeyboard', :git => 'https://github.com/fallending/BinartOCStickerKeyboard-iOS.git', :tag => '0.2.1'
   pod 'BinartOCPlotView', :git => 'https://github.com/fallending/BinartOCPlotView-iOS.git', :tag => '0.1.2'
   pod 'BinartOCLayout', :path => '../'
   pod 'BinartSwiftInputBar', :path => '../'
