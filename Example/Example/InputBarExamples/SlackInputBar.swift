@@ -27,6 +27,7 @@ class SlackInputBar: InputBarAccessoryView {
     
     func configure() {
         self.inputTextView.backgroundColor = .red
+        self.middleContentViewPadding = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         
         // MARK: = 底部扩展按钮
         let items = [
@@ -71,7 +72,7 @@ class SlackInputBar: InputBarAccessoryView {
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         
         // 表情扩展
-        BAStickerConfig.shared.deleteImage = UIImage.init(named: "delete-emoji") ?? UIImage()
+        BAStickerConfig.shared.deleteImageNormal = UIImage.init(named: "delete-emoji") ?? UIImage()
         BAStickerConfig.shared.previewImage = UIImage.init(named: "emoji-preview-bg") ?? UIImage()
         BAStickerConfig.shared.toggleEmoji = UIImage.init(named: "toggle_emoji") ?? UIImage()
         BAStickerConfig.shared.toggleKeyboard = UIImage.init(named: "toggle_keyboard") ?? UIImage()

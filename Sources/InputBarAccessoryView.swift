@@ -284,9 +284,9 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
      ````
      
      */
-    open var middleContentViewPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4) {
+    open var middleContentViewPadding: UIEdgeInsets = UIEdgeInsets(top: 10, left: 4, bottom: 10, right: 4) {
         didSet {
-//            updateMiddleContentViewPadding()
+            updateMiddleContentViewPadding()
         }
     }
     
