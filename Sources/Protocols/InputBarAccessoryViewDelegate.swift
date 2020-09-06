@@ -60,6 +60,9 @@ public protocol InputBarAccessoryViewDelegate: AnyObject {
     ///   - inputBar: The InputBarAccessoryView
     ///   - gesture: The gesture that was recognized
     func inputBar(_ inputBar: InputBarAccessoryView, didSwipeTextViewWith gesture: UISwipeGestureRecognizer)
+    
+    /// 文本输入框，获取焦点
+    func inputBar(_ inputBar: InputBarAccessoryView, textViewBeginEditing text: String)
 }
 
 public extension InputBarAccessoryViewDelegate {

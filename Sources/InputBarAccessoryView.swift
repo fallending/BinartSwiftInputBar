@@ -927,6 +927,9 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     @objc
     open func inputTextViewDidBeginEditing() {
         items.forEach { $0.keyboardEditingBeginsAction() }
+        
+        
+        delegate?.inputBar(self, textViewBeginEditing: "")
     }
     
     /// Calls each items `keyboardEditingEndsAction` method
