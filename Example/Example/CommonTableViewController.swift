@@ -152,7 +152,7 @@ extension CommonTableViewController: InputBarAccessoryViewDelegate {
         tableView.contentInset.bottom = size.height + 300 // keyboard size estimate
     }
     
-    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+    @objc(inputBar:textViewBeginEditing:) func inputBar(_ inputBar: InputBarAccessoryView, textViewBeginEditing text: String) {
 //
 //        guard autocompleteManager.currentSession != nil, autocompleteManager.currentSession?.prefix == "#" else { return }
 //        // Load some data asyncronously for the given session.prefix
