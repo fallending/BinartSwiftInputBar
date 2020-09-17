@@ -13,9 +13,9 @@ final class InputAccessoryExampleViewController: CommonTableViewController {
     
     // MARK: - Properties
     
-    override var inputAccessoryView: UIView? {
-        return inputBar
-    }
+//    override var inputAccessoryView: UIView? {
+//        return inputBar
+//    }
     
     override var canBecomeFirstResponder: Bool {
         return true

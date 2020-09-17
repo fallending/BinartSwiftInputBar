@@ -63,6 +63,9 @@ public protocol InputBarAccessoryViewDelegate: AnyObject {
     
     /// 文本输入框，获取焦点
     func inputBar(_ inputBar: InputBarAccessoryView, textViewBeginEditing text: String)
+    
+    /// 文本变化
+    func inputBar(_ inputBar: InputBarAccessoryView, didChangeTextIn range: NSRange, toText text: String)
 }
 
 public extension InputBarAccessoryViewDelegate {

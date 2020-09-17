@@ -1,29 +1,3 @@
-//
-//  InputBarAccessoryView.swift
-//  InputBarAccessoryView
-//
-//  Copyright © 2017-2020 Nathan Tannar.
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
-//
-//  Created by Nathan Tannar on 8/18/17.
-//
 
 import UIKit
 import BinartOCLayout
@@ -91,11 +65,6 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     public let separatorLine = SeparatorLine()
     
     /// The stack view position in the InputBarItemPosition
-    ///
-    /// - left: Left Stack View
-    /// - right: Bottom Stack View
-    /// - bottom: Left Stack View
-    /// - top: Top Stack View
     public enum StackItemPosition {
         case left, right, bottom, top
     }
@@ -199,7 +168,7 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         return view
     }()
     
-    /// The InputTextView a user can input a message in
+    /// 文本输入视图
     open lazy var inputTextView: InputTextView = {
         let inputTextView = InputTextView()
         inputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -210,26 +179,13 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         // UIReturnKeyDone
         // UIReturnKeySend
         inputTextView.returnKeyType = .send
+        inputTextView.enablesReturnKeyAutomatically = true // 输入框没有输入的时候，发送按钮是置灰的
         inputTextView.keyboardType = .default
         inputTextView.delegate = self
         return inputTextView
     }()
 
-    /**
-     The anchor contants used to add horizontal inset from the InputBarAccessoryView and the
-     window. By default, an `inputAccessoryView` spans the entire width of the UIWindow. You
-     can manage these insets if you wish to implement designs that do not have the bar spanning
-     the entire width.
-
-     ## Important Notes ##
-
-     USE AT YOUR OWN RISK
-
-     ````
-     H:|-(frameInsets.left)-[InputBarAccessoryView]-(frameInsets.right)-|
-     ````
-
-     */
+    /// 水平边缘内边距
     open var frameInsets: HorizontalEdgePadding = .zero {
         didSet {
 //            updateFrameInsets()
@@ -938,6 +894,26 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         items.forEach { $0.keyboardEditingEndsAction() }
     }
     
+    // MARK: = UITextViewDelegate
+        
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if (text.elementsEqual("\n")) {
+            
+            if (textView.text != nil && textView.text.count > 0) {
+                // 发送！！！
+                didSelectSendButton()
+            }
+            
+            return false
+        }
+        
+        // true here
+        delegate?.inputBar(self, didChangeTextIn: range, toText: text)
+        
+        return true
+    }
+    
     // MARK: - Plugins
     
     /// Reloads each of the plugins
@@ -949,6 +925,8 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     open func invalidatePlugins() {
         inputPlugins.forEach { $0.invalidate() }
     }
+    
+    
     
     // MARK: - User Actions
     
@@ -969,22 +947,5 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         inputTextView.text = String()
         
         inputTextView.resignFirstResponder()
-    }
-    
-    // MARK: =
-    
-    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        if (text.elementsEqual("\n")) {
-            
-            if (textView.text != nil && textView.text.count > 0) {
-                // 发送！！！
-                didSelectSendButton()
-            }
-            
-            return false
-        }
-        
-        return true
     }
 }
