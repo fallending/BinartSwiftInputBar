@@ -110,6 +110,10 @@ class CommonTableViewController: UIViewController, UITableViewDataSource, UITabl
 }
 
 extension CommonTableViewController: InputBarAccessoryViewDelegate {
+    func inputBar(_ inputBar: InputBarAccessoryView, didChangeTextIn range: NSRange, toText text: String) {
+        
+    }
+    
     
     // MARK: - InputBarAccessoryViewDelegate
     

@@ -30,6 +30,10 @@ import UIKit
 /// An simple `UIViewController` subclass that is ready to work
 /// with an `inputAccessoryView`
 open class InputBarViewController: UIViewController, InputBarAccessoryViewDelegate {
+    public func inputBar(_ inputBar: InputBarAccessoryView, didChangeTextIn range: NSRange, toText text: String) {
+        
+    }
+    
 
     /// A powerful InputAccessoryView ideal for messaging applications
     public let inputBar = InputBarAccessoryView()
