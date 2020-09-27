@@ -18,7 +18,7 @@ PODS:
 DEPENDENCIES:
   - BinartOCLayout (from `../`)
   - BinartOCPlotView (from `https://github.com/fallending/BinartOCPlotView-iOS.git`, tag `0.1.2`)
-  - BinartOCStickerKeyboard (from `https://github.com/fallending/BinartOCStickerKeyboard-iOS.git`, tag `0.2.1`)
+  - BinartOCStickerKeyboard (from `../`)
   - BinartSwiftInputBar (from `../`)
 
 SPEC REPOS:
@@ -32,8 +32,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/fallending/BinartOCPlotView-iOS.git
     :tag: 0.1.2
   BinartOCStickerKeyboard:
-    :git: https://github.com/fallending/BinartOCStickerKeyboard-iOS.git
-    :tag: 0.2.1
+    :path: "../"
   BinartSwiftInputBar:
     :path: "../"
 
@@ -41,17 +40,14 @@ CHECKOUT OPTIONS:
   BinartOCPlotView:
     :git: https://github.com/fallending/BinartOCPlotView-iOS.git
     :tag: 0.1.2
-  BinartOCStickerKeyboard:
-    :git: https://github.com/fallending/BinartOCStickerKeyboard-iOS.git
-    :tag: 0.2.1
 
 SPEC CHECKSUMS:
   BinartOCLayout: 77f8b27fcfc91d6c5834ad112c7b2aafa786c81e
   BinartOCPlotView: 2f24fb974215659cf2b51840302229d411e92914
-  BinartOCStickerKeyboard: c35647bcc50aed917f7c87e3c15f9feedfc38ec7
-  BinartSwiftInputBar: 8abc1c891250c1966ed71b4e163f033d32d10162
+  BinartOCStickerKeyboard: d4747209d24495546ff2a05c99957b42c7a726d8
+  BinartSwiftInputBar: 1d7e3499d4764219def753ef88de122ab39467a2
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
 
-PODFILE CHECKSUM: 03dc1d78a2b89176c1f9b5936287da83d0ce55a4
+PODFILE CHECKSUM: 2f5e9222866712639da32d4e7d3aa27a46406b33
 
 COCOAPODS: 1.9.3

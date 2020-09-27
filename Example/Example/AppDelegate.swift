@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BARecordButton.missupImage = UIImage(named: "record_btn_missup")!
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: InputBarStyleSelectionController())
+        window?.rootViewController = UINavigationController(rootViewController: ExampleController())
         window?.makeKeyAndVisible()
                 
         return true

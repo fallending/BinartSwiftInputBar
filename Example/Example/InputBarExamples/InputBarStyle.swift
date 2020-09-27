@@ -11,23 +11,11 @@ import BinartSwiftInputBar
 
 enum InputBarStyle: String, CaseIterable {
     
-    case imessage = "iMessage"
-    case slack = "Slack"
-    case githawk = "GitHawk"
-    case facebook = "Facebook"
-    case noTextView = "No InputTextView"
-//    case wechat = "Wechat"
-    case `default` = "Default"
+    case wechat = "微信"
     
     func generate() -> InputBarAccessoryView {
         switch self {
-        case .imessage: return iMessageInputBar()
-        case .slack: return SlackInputBar()
-        case .githawk: return GitHawkInputBar()
-        case .facebook: return FacebookInputBar()
-        case .noTextView: return NoTextViewInputBar()
-//        case .wechat: return WechatInputBar()
-        case .default: return InputBarAccessoryView()
+        case .wechat: return WechatInputBar()
         }
     }
 }
