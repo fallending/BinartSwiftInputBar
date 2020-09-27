@@ -897,6 +897,7 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     // MARK: = UITextViewDelegate
         
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        textView.attributedText
         
         if (text.elementsEqual("\n")) {
             
