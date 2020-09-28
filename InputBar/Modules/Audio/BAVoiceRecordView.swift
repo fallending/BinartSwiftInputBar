@@ -65,7 +65,7 @@ open class BAVoiceRecordView: UIView, InputItem {
         recordBtn.delegate = self
         
         addSubview(recordBtn)
-        recordBtn.whc_CenterX(0)?.whc_CenterY(10)
+        recordBtn.whc_CenterX(0)?.whc_CenterY(20)
             .whc_Width(96)
             .whc_Height(96);
         
@@ -74,16 +74,15 @@ open class BAVoiceRecordView: UIView, InputItem {
         leftWaveView = BABarAudioPlot()
         leftWaveView.padding = 0.2
         leftWaveView.backgroundColor = UIColor.clear
-        
-        
         addSubview(leftWaveView)
-        leftWaveView.whc_Width(50)?.whc_Height(36)?.whc_TopSpace(-20)?.whc_CenterX(-80)
+        leftWaveView.whc_Width(50)?.whc_Height(36)?.whc_TopSpace(20)?.whc_CenterX(-80)
         
         rightWaveView = BABarAudioPlot()
         rightWaveView.padding = leftWaveView.padding
         rightWaveView.backgroundColor = UIColor.clear
+        
         addSubview(rightWaveView)
-        rightWaveView.whc_Width(50)?.whc_Height(36)?.whc_TopSpace(-20)?.whc_CenterX(80)
+        rightWaveView.whc_Width(50)?.whc_Height(36)?.whc_TopSpace(20)?.whc_CenterX(80)
         
         // 提示语覆盖在声浪上，且居中
         tipLabel = UILabel()
@@ -95,7 +94,7 @@ open class BAVoiceRecordView: UIView, InputItem {
         tipLabel.backgroundColor = .clear
         
         addSubview(tipLabel)
-        tipLabel.whc_CenterX(0)?.whc_Height(36)?.whc_TopSpace(-20).whc_Width(120)
+        tipLabel.whc_CenterX(0)?.whc_Height(36)?.whc_TopSpace(20).whc_Width(120)
     }
     
     

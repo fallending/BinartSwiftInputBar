@@ -127,14 +127,10 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     }()
     
     /**
-     The InputStackView at the InputStackView.bottom position
-     
-     ## Important Notes ##
-     1. It's axis is initially set to .horizontal
-     2. It's spacing is initially set to 15
+     底部StackView
      */
     public let bottomStackView: BAStackView = {
-       let stackView = BAStackView() //InputStackView(axis: .horizontal, spacing: 15)
+       let stackView = BAStackView()
         stackView.flex.direction = BADirectionRow
         stackView.flex.align = BAAlignItemsStart
         stackView.flex.wrap = BAWrapWrap
@@ -182,6 +178,11 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         inputTextView.enablesReturnKeyAutomatically = true // 输入框没有输入的时候，发送按钮是置灰的
         inputTextView.keyboardType = .default
         inputTextView.delegate = self
+        
+        // 设置文本输入视图点击事件
+        let click = UITapGestureRecognizer.init(target: self, action: #selector(onInputTextViewClicked))
+        inputTextView.addGestureRecognizer(click)
+        
         return inputTextView
     }()
 
@@ -368,10 +369,10 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     open override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         guard newSuperview != nil else {
-            deactivateConstraints()
+//            deactivateConstraints()
             return
         }
-        activateConstraints()
+//        activateConstraints()
     }
 
     open override func didMoveToWindow() {
@@ -489,6 +490,7 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         rightStackView.whc_Width(rightStackViewWidthConstant)
         rightStackView.whc_BottomSpaceEqualView(middleContentViewWrapper)
         
+        //
         bottomStackView.whc_Height(0)
         bottomStackView.whc_BottomSpace(0)
         bottomStackView.whc_LeftSpace(0)
@@ -646,7 +648,6 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     ///   - animated: If the layout should be animated
     ///   - animations: Animation logic
     internal func performLayout(_ animated: Bool, _ animations: @escaping () -> Void) {
-        deactivateConstraints()
         if animated {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.3, animations: animations)
@@ -654,29 +655,6 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         } else {
             UIView.performWithoutAnimation { animations() }
         }
-        activateConstraints()
-    }
-    
-    /// Activates the NSLayoutConstraintSet's
-    private func activateConstraints() {
-//        backgroundViewLayoutSet?.activate()
-//        contentViewLayoutSet?.activate()
-//        middleContentViewLayoutSet?.activate()
-//        leftStackViewLayoutSet?.activate()
-//        rightStackViewLayoutSet?.activate()
-//        bottomStackViewLayoutSet?.activate()
-//        topStackViewLayoutSet?.activate()
-    }
-    
-    /// Deactivates the NSLayoutConstraintSet's
-    private func deactivateConstraints() {
-//        backgroundViewLayoutSet?.deactivate()
-//        contentViewLayoutSet?.deactivate()
-//        middleContentViewLayoutSet?.deactivate()
-//        leftStackViewLayoutSet?.deactivate()
-//        rightStackViewLayoutSet?.deactivate()
-////        bottomStackViewLayoutSet?.deactivate()
-//        topStackViewLayoutSet?.deactivate()
     }
 
     /// Removes the current `middleContentView` and assigns a new one.
@@ -772,6 +750,12 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
                 guard superview != nil else { return }
                 
                 bottomStackView.layoutIfNeeded()
+                
+//                inputTextView.resignFirstResponder()
+//                inputTextView.isEditable = false
+//                inputTextView.inputView = bottomStackView
+//                inputTextView.becomeFirstResponder()
+                
             case .top:
 //                topStackView.subviews.forEach { $0.removeFromSuperview() }
 //                topStackViewItems = items
@@ -796,6 +780,61 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         performLayout(animated) {
             setNewItems()
         }
+    }
+    
+    /// 设置输入面板
+    open func setInputBoardView (view: UIView?) {
+        
+        if let view = view {
+            inputTextView.resignFirstResponder()
+            inputTextView.isEditable = false
+            inputTextView.inputView = view
+            
+            // 只是为了拉起键盘，使inputView生效；同时将inputTextView设置为不可编辑
+            inputTextView.becomeFirstResponder()
+            
+            delBottomSpacingForSafeArea()
+        } else {
+            inputTextView.inputView = nil;
+            inputTextView.resignFirstResponder()
+            
+            addBottomSpacingForSafeArea()
+        }
+    }
+    
+    func addBottomSpacingForSafeArea () {
+        // 利用bottomView做安全区域适配
+        
+        bottomStackView.columns = 1
+        bottomStackView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        bottomStackView.verticalSpacing = 0
+        bottomStackView.horizontalSpacing = 0
+        bottomStackView.arrangedSubviewHeight = 20
+        bottomStackView.arrangedSubviewWidth = 0
+        
+        // 试一试，理论上应该在特定状态才显示
+        setStackViewItems([InputBarButtonItem()], forStack: .bottom, animated: false)
+    }
+    
+    func delBottomSpacingForSafeArea () {
+        setStackViewItems([], forStack: .bottom, animated: false)
+    }
+    
+    @objc func onInputTextViewClicked (_ tap: UITapGestureRecognizer) {
+        inputTextView.inputView = nil;
+        
+        if inputTextView.isFirstResponder && inputTextView.isEditable {
+            return
+        }
+        
+        inputTextView.isEditable = true
+        inputTextView.becomeFirstResponder()
+        
+        
+    }
+    
+    func setInputAccessoryView () {
+        
     }
     
     /// Sets the leftStackViewWidthConstant

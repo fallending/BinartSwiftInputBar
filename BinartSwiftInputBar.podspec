@@ -39,5 +39,5 @@ Pod::Spec.new do |s|
     s.dependency 'BinartOCLayout'
     s.dependency 'BinartOCPlotView'
     s.dependency 'BinartOCStickerKeyboard'
-    s.dependency 'IQKeyboardManagerSwift'
+#    s.dependency 'IQKeyboardManagerSwift'
 end

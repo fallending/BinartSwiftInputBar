@@ -25,11 +25,62 @@ class WechatInputBar: InputBarAccessoryView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupStickerKeyboard () {
+        
+    }
+    
+    func setupPlotView () {
+        
+    }
+    
+    func setupRecordView () {
+        
+    }
+    
+    func setupInputBar () {
+        
+    }
+    
     func configure() {
         self.inputTextView.backgroundColor = .red
         self.middleContentViewPadding = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
+
+        // MARK: = 输入框
         
-        // MARK: = 底部扩展按钮
+        // We can change the container insets if we want
+        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
+        
+        // 表情扩展
+        BAStickerConfig.shared.deleteImageNormal = UIImage.init(named: "delete-emoji") ?? UIImage()
+        BAStickerConfig.shared.previewImage = UIImage.init(named: "emoji-preview-bg") ?? UIImage()
+        BAStickerConfig.shared.toggleEmoji = UIImage.init(named: "toggle_emoji") ?? UIImage()
+        BAStickerConfig.shared.toggleKeyboard = UIImage.init(named: "toggle_keyboard") ?? UIImage()
+        BAStickerConfig.shared.configFile = "ExampleSticker.plist";
+        BAStickerConfig.shared.config()
+        
+        // 固定表情键盘高度
+        let emoticonView = PPStickerKeyboard()
+        emoticonView.frame = CGRect(x: 0, y: 0, width: 0, height: 200)
+        
+        let emoticonItem = InputBarButtonItem()
+            .configure {
+                $0.image = UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
+                $0.tintColor = .darkGray
+                $0.setSize(CGSize(width: 30, height: 30), animated: false)
+            }.onSelected {
+                self.emoticonExtended = !self.emoticonExtended
+                
+                $0.image = self.emoticonExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
+                
+                if self.emoticonExtended {
+                    self.setInputBoardView(view: emoticonView)
+                } else {
+                    self.setInputBoardView(view: nil)
+                }
+            }
+        
+        // MARK: = 功能扩展区域
         let items = [
             makeButton(named: "ic_camera").configure({ (item) in
                 item.title = "照片"
@@ -37,19 +88,6 @@ class WechatInputBar: InputBarAccessoryView {
                 button.isEnabled = textView.text.isEmpty
             }.onSelected {
                     $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-            },
-            makeButton(named: "ic_at")
-                .configure({ (item) in
-                    item.title = "sss"
-                }).onSelected {
-                self.inputPlugins.forEach { _ = $0.handleInput(of: "@" as AnyObject) }
-                $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-            },
-            makeButton(named: "ic_hashtag").configure({ (item) in
-                item.title = "照片"
-            }).onSelected {
-                self.inputPlugins.forEach { _ = $0.handleInput(of: "#" as AnyObject) }
-                $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
             },
             makeButton(named: "ic_library")
                 .configure({ (item) in
@@ -65,48 +103,6 @@ class WechatInputBar: InputBarAccessoryView {
         ]
         items.forEach { $0.tintColor = .lightGray }
         
-        // MARK: = 输入框
-        
-        // We can change the container insets if we want
-        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
-        
-        // 表情扩展
-        BAStickerConfig.shared.deleteImageNormal = UIImage.init(named: "delete-emoji") ?? UIImage()
-        BAStickerConfig.shared.previewImage = UIImage.init(named: "emoji-preview-bg") ?? UIImage()
-        BAStickerConfig.shared.toggleEmoji = UIImage.init(named: "toggle_emoji") ?? UIImage()
-        BAStickerConfig.shared.toggleKeyboard = UIImage.init(named: "toggle_keyboard") ?? UIImage()
-        BAStickerConfig.shared.configFile = "ExampleSticker.plist";
-        BAStickerConfig.shared.config()
-        
-        let emoticonView = PPStickerKeyboard()
-        
-        let emoticonItem = InputBarButtonItem()
-            .configure {
-                $0.image = UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
-                $0.tintColor = .darkGray
-                $0.setSize(CGSize(width: 30, height: 30), animated: false)
-            }.onSelected {
-                self.emoticonExtended = !self.emoticonExtended
-                
-                $0.image = self.emoticonExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
-                
-                self.bottomStackView.columns = 1
-                self.bottomStackView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                self.bottomStackView.verticalSpacing = 0
-                self.bottomStackView.horizontalSpacing = 0
-                self.bottomStackView.arrangedSubviewHeight = emoticonView.heightThatFits()
-                self.bottomStackView.arrangedSubviewWidth = 0
-                
-                
-                if self.emoticonExtended {
-                    self.setStackViewItems([emoticonView], forStack: .bottom, animated: true)
-                } else {
-                    self.setStackViewItems([], forStack: .bottom, animated: true)
-                }
-            }
-        
-        // 功能扩展区域
         let extItem = InputBarButtonItem()
         .configure {
             $0.image = UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
@@ -117,26 +113,19 @@ class WechatInputBar: InputBarAccessoryView {
             
             $0.image = self.extExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
             
-            self.bottomStackView.columns = 4
-            self.bottomStackView.padding = UIEdgeInsets(top: 20, left: 12, bottom: 12, right: 12)
-            self.bottomStackView.verticalSpacing = 0
-            self.bottomStackView.horizontalSpacing = 28
-            self.bottomStackView.arrangedSubviewHeight = 50
-            self.bottomStackView.arrangedSubviewWidth = 50
-            
             if self.extExtended {
                 self.setStackViewItems(items, forStack: .bottom, animated: true)
             } else {
-                self.setStackViewItems([], forStack: .bottom, animated: true)
+                self.setInputBoardView(view: nil)
             }
         }
         
         setStackViewItems([emoticonItem, extItem], forStack: .right, animated: false)
         setRightStackViewWidthConstant(to: 60, animated: false)
         
-        // MARK: =
-        
+        // MARK: = 语音录制
         let bottomRecordView = BAVoiceRecordView()
+        bottomRecordView.frame = CGRect(x: 0, y: 0, width: 0, height: 160)
         
         let voiceItem = InputBarButtonItem()
         .configure {
@@ -148,25 +137,15 @@ class WechatInputBar: InputBarAccessoryView {
             
             $0.image = self.voiceExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
             
-//            self.bottomStackView.flex.direction = BADirectionRow
-//            self.bottomStackView.flex.align = BAAlignItemsStart
-//            self.bottomStackView.flex.wrap = BAWrapWrap
-            self.bottomStackView.columns = 1
-            self.bottomStackView.padding = UIEdgeInsets(top: 30, left: 12, bottom: 12, right: 12)
-            self.bottomStackView.verticalSpacing = 0
-            self.bottomStackView.horizontalSpacing = 0
-            self.bottomStackView.arrangedSubviewHeight = 120
-            self.bottomStackView.arrangedSubviewWidth = 0
-            
             if self.voiceExtended {
-                self.setStackViewItems([bottomRecordView], forStack: .bottom, animated: true)
+                self.setInputBoardView(view: bottomRecordView)
                 
                 let delayTime = DispatchTime.now() + Double(Int64(Double(5) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
                 DispatchQueue.main.asyncAfter(deadline: delayTime) {
                     bottomRecordView.setRecordComplete()
                 }
             } else {
-                self.setStackViewItems([], forStack: .bottom, animated: true)
+                self.setInputBoardView(view: nil)
             }
         }
         
@@ -188,6 +167,11 @@ class WechatInputBar: InputBarAccessoryView {
                 print("Item Tapped")
         }
     }
+    
+    // 创建bottom操作面板
+//    private func makeInputView () -> UIView {
+//
+//    }
     
 }
 
