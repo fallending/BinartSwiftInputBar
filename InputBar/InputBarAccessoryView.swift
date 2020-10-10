@@ -791,14 +791,37 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
             inputTextView.inputView = view
             
             // 只是为了拉起键盘，使inputView生效；同时将inputTextView设置为不可编辑
-            inputTextView.becomeFirstResponder()
+            // @bugreport 如果对inputView的设置和becomeFirstResponder在一次UI操作的commit中，会出现输入框先跳到两个叠加高度，然后回到预期位置
+//            inputTextView.becomeFirstResponder()
             
-            delBottomSpacingForSafeArea()
+            // @bugfix 跳1个runloop帧
+            inputTextView.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.017)
+            
+            if UIDevice.isFullScreen {
+                delBottomSpacingForSafeArea()
+            }
+            
         } else {
-            inputTextView.inputView = nil;
             inputTextView.resignFirstResponder()
             
-            addBottomSpacingForSafeArea()
+            // FIXME: 这里的处理，不能和微信媲美，需要继续优化！！！！！
+//            let view = inputTextView.inputView
+            
+//            inputTextView.perform(#selector(resignFirstResponder), with: nil, afterDelay: 0.017)
+//            UIView.animate(withDuration: 0.16) {
+////                view?.frame = CGRect(origin: view?.frame.origin, size: CGSize(width: view?.frame.width, height: 0))
+//                view?.transform = CGAffineTransform(scaleX: 1, y: 0)
+//                view?.alpha = 0
+//            } completion: { (complete) in
+//                self.inputTextView.inputView = nil
+//            }
+
+            inputTextView.inputView = nil;
+            
+            if UIDevice.isFullScreen {
+                addBottomSpacingForSafeArea()
+            }
+            
         }
     }
     
@@ -809,7 +832,7 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         bottomStackView.padding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         bottomStackView.verticalSpacing = 0
         bottomStackView.horizontalSpacing = 0
-        bottomStackView.arrangedSubviewHeight = 20
+        bottomStackView.arrangedSubviewHeight = UIDevice.kBottomSafeHeight
         bottomStackView.arrangedSubviewWidth = 0
         
         // 试一试，理论上应该在特定状态才显示
@@ -821,16 +844,16 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     }
     
     @objc func onInputTextViewClicked (_ tap: UITapGestureRecognizer) {
-        inputTextView.inputView = nil;
+//        inputTextView.inputView = nil;
+        setInputBoardView(view: nil)
         
         if inputTextView.isFirstResponder && inputTextView.isEditable {
             return
         }
         
         inputTextView.isEditable = true
-        inputTextView.becomeFirstResponder()
-        
-        
+//        inputTextView.becomeFirstResponder()
+        inputTextView.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.017)
     }
     
     func setInputAccessoryView () {

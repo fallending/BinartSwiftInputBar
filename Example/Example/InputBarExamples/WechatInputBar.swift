@@ -51,7 +51,7 @@ class WechatInputBar: InputBarAccessoryView {
         inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         
-        // 表情扩展
+        // MARK: = 表情扩展
         BAStickerConfig.shared.deleteImageNormal = UIImage.init(named: "delete-emoji") ?? UIImage()
         BAStickerConfig.shared.previewImage = UIImage.init(named: "emoji-preview-bg") ?? UIImage()
         BAStickerConfig.shared.toggleEmoji = UIImage.init(named: "toggle_emoji") ?? UIImage()
