@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension UIDevice {
+public extension UIDevice {
     static var isFullScreen: Bool {
         if #available(iOS 11, *) {
               guard let w = UIApplication.shared.delegate?.window, let unwrapedWindow = w else {

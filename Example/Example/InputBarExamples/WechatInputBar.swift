@@ -81,27 +81,46 @@ class WechatInputBar: InputBarAccessoryView {
             }
         
         // MARK: = 功能扩展区域
-        let items = [
-            makeButton(named: "ic_camera").configure({ (item) in
-                item.title = "照片"
-            }).onTextViewDidChange { button, textView in
-                button.isEnabled = textView.text.isEmpty
-            }.onSelected {
-                    $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-            },
-            makeButton(named: "ic_library")
-                .configure({ (item) in
-                    item.title = "照片"
-                })
-                .onSelected {
-                    $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-                    let imagePicker = UIImagePickerController()
-                    imagePicker.delegate = self
-                    imagePicker.sourceType = .photoLibrary
-                    (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController?.present(imagePicker, animated: true, completion: nil)
-            },
-        ]
-        items.forEach { $0.tintColor = .lightGray }
+        var extItems: [BAInputExtItem] = []
+        
+        var item = BAInputExtItem()
+        item.iconImage = UIImage(named: "ic_camera")!
+        item.tag = 1
+        item.title = "照片"
+        item.iconOverlayBackgroundColor = UIColor(red: 42.0/255, green: 43.0/255, blue: 44.0/255, alpha: 1.0)
+        extItems.append(item)
+        
+        item = BAInputExtItem()
+        item.iconImage = UIImage(named: "ic_library")!
+        item.tag = 1
+        item.title = "照片"
+        item.iconOverlayBackgroundColor = UIColor(red: 42.0/255, green: 43.0/255, blue: 44.0/255, alpha: 1.0)
+        extItems.append(item)
+        
+        let extView = BAHorizontalPageView.inputExtContainerView(with: extItems, safeAreaSpacing: UIDevice.kBottomSafeHeight) { (item) in
+            
+        }
+//        let items = [
+//            makeButton(named: "ic_camera").configure({ (item) in
+//                item.title = "照片"
+//            }).onTextViewDidChange { button, textView in
+//                button.isEnabled = textView.text.isEmpty
+//            }.onSelected {
+//                    $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
+//            },
+//            makeButton(named: "ic_library")
+//                .configure({ (item) in
+//                    item.title = "照片"
+//                })
+//                .onSelected {
+//                    $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
+//                    let imagePicker = UIImagePickerController()
+//                    imagePicker.delegate = self
+//                    imagePicker.sourceType = .photoLibrary
+//                    (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController?.present(imagePicker, animated: true, completion: nil)
+//            },
+//        ]
+//        items.forEach { $0.tintColor = .lightGray }
         
         let extItem = InputBarButtonItem()
         .configure {
@@ -114,7 +133,7 @@ class WechatInputBar: InputBarAccessoryView {
             $0.image = self.extExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
             
             if self.extExtended {
-                self.setStackViewItems(items, forStack: .bottom, animated: true)
+                self.setInputBoardView(view: extView)
             } else {
                 self.setInputBoardView(view: nil)
             }
