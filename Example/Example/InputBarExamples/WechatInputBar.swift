@@ -16,6 +16,10 @@ class WechatInputBar: InputBarAccessoryView {
     var voiceExtended: Bool = false
     var extExtended: Bool = false
     
+    var audioBtn: InputBarButtonItem!
+    var stickerBtn: InputBarButtonItem!
+    var extBtn: InputBarButtonItem!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -63,20 +67,25 @@ class WechatInputBar: InputBarAccessoryView {
         let emoticonView = PPStickerKeyboard()
         emoticonView.frame = CGRect(x: 0, y: 0, width: 0, height: 200)
         
-        let emoticonItem = InputBarButtonItem()
+        stickerBtn = InputBarButtonItem()
             .configure {
                 $0.image = UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
                 $0.tintColor = .darkGray
                 $0.setSize(CGSize(width: 30, height: 30), animated: false)
-            }.onSelected {
-                self.emoticonExtended = !self.emoticonExtended
-                
-                $0.image = self.emoticonExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
-                
-                if self.emoticonExtended {
-                    self.setInputBoardView(view: emoticonView)
-                } else {
-                    self.setInputBoardView(view: nil)
+            }.onSelected { [weak self] in
+                if let self = self {
+                    self.emoticonExtended = !(self.emoticonExtended)
+                    
+                    $0.image = self.emoticonExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
+                    
+                    if self.emoticonExtended {
+                        self.resetExtState()
+                        self.resetAudioState()
+                        
+                        self.setInputBoardView(view: emoticonView)
+                    } else {
+                        self.setInputBoardView(view: nil)
+                    }
                 }
             }
         
@@ -98,77 +107,67 @@ class WechatInputBar: InputBarAccessoryView {
         extItems.append(item)
         
         let extView = BAHorizontalPageView.inputExtContainerView(with: extItems, safeAreaSpacing: UIDevice.kBottomSafeHeight) { (item) in
-            
+            print(String(item.title)+" Item Tapped")
         }
-//        let items = [
-//            makeButton(named: "ic_camera").configure({ (item) in
-//                item.title = "照片"
-//            }).onTextViewDidChange { button, textView in
-//                button.isEnabled = textView.text.isEmpty
-//            }.onSelected {
-//                    $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-//            },
-//            makeButton(named: "ic_library")
-//                .configure({ (item) in
-//                    item.title = "照片"
-//                })
-//                .onSelected {
-//                    $0.tintColor = UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
-//                    let imagePicker = UIImagePickerController()
-//                    imagePicker.delegate = self
-//                    imagePicker.sourceType = .photoLibrary
-//                    (UIApplication.shared.delegate as? AppDelegate)?.window?.rootViewController?.present(imagePicker, animated: true, completion: nil)
-//            },
-//        ]
-//        items.forEach { $0.tintColor = .lightGray }
         
-        let extItem = InputBarButtonItem()
+        extBtn = InputBarButtonItem()
         .configure {
             $0.image = UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
             $0.tintColor = .darkGray
             $0.setSize(CGSize(width: 30, height: 30), animated: false)
-        }.onSelected {
-            self.extExtended = !self.extExtended
+        }.onSelected { [weak self] in
             
-            $0.image = self.extExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
-            
-            if self.extExtended {
-                self.setInputBoardView(view: extView)
-            } else {
-                self.setInputBoardView(view: nil)
+            if let self = self {
+                self.extExtended = !self.extExtended
+                
+                $0.image = self.extExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
+                
+                if self.extExtended {
+                    self.resetStickerState()
+                    self.resetAudioState()
+                    self.setInputBoardView(view: extView)
+                } else {
+                    self.setInputBoardView(view: nil)
+                }
             }
         }
         
-        setStackViewItems([emoticonItem, extItem], forStack: .right, animated: false)
+        setStackViewItems([stickerBtn, extBtn], forStack: .right, animated: false)
         setRightStackViewWidthConstant(to: 60, animated: false)
         
         // MARK: = 语音录制
         let bottomRecordView = BAVoiceRecordView()
         bottomRecordView.frame = CGRect(x: 0, y: 0, width: 0, height: 160)
         
-        let voiceItem = InputBarButtonItem()
+        audioBtn = InputBarButtonItem()
         .configure {
             $0.image = UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
             $0.tintColor = .darkGray
             $0.setSize(CGSize(width: 30, height: 30), animated: false)
-        }.onSelected {
-            self.voiceExtended = !self.voiceExtended
+        }.onSelected { [weak self] in
             
-            $0.image = self.voiceExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
-            
-            if self.voiceExtended {
-                self.setInputBoardView(view: bottomRecordView)
+            if let self = self {
+                self.voiceExtended = !self.voiceExtended
                 
-                let delayTime = DispatchTime.now() + Double(Int64(Double(5) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                    bottomRecordView.setRecordComplete()
+                $0.image = self.voiceExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
+                
+                if self.voiceExtended {
+                    self.resetExtState()
+                    self.resetStickerState()
+                    
+                    self.setInputBoardView(view: bottomRecordView)
+                    
+                    let delayTime = DispatchTime.now() + Double(Int64(Double(5) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                    DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                        bottomRecordView.setRecordComplete()
+                    }
+                } else {
+                    self.setInputBoardView(view: nil)
                 }
-            } else {
-                self.setInputBoardView(view: nil)
             }
         }
         
-        setStackViewItems([voiceItem], forStack: .left, animated: false)
+        setStackViewItems([audioBtn], forStack: .left, animated: false)
         setLeftStackViewWidthConstant(to: 25, animated: false)
     }
     
@@ -188,9 +187,27 @@ class WechatInputBar: InputBarAccessoryView {
     }
     
     // 创建bottom操作面板
-//    private func makeInputView () -> UIView {
-//
-//    }
+    private func resetStickerState () {
+        if self.emoticonExtended {
+            self.emoticonExtended = false
+            stickerBtn.image = self.emoticonExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_emotion_normal")?.withRenderingMode(.alwaysTemplate)
+        }
+    }
+    
+    private func resetExtState () {
+        if self.extExtended {
+            self.extExtended = false
+            extBtn.image = self.extExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_ext_normal")?.withRenderingMode(.alwaysTemplate)
+        }
+    }
+    
+    private func resetAudioState () {
+        if self.voiceExtended {
+            self.voiceExtended = false
+            
+            audioBtn.image = self.voiceExtended ? UIImage(named: "ic_keyboard_normal")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "ic_voice_normal")?.withRenderingMode(.alwaysTemplate)
+        }
+    }
     
 }
 
