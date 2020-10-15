@@ -125,7 +125,6 @@ typedef NS_ENUM(NSInteger, KSSideslipCellState) {
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(contentViewPan:)];
     panGesture.delegate = self;
     [self.contentView addGestureRecognizer:panGesture];
-    self.contentView.backgroundColor = [UIColor whiteColor];
     
     [self.contentView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
 }
