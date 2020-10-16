@@ -9,7 +9,7 @@
 import UIKit
 import BinartSwiftInputBar
 
-@UIApplicationMain
+//@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
@@ -27,4 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         return true
     }
+    
+
 }
