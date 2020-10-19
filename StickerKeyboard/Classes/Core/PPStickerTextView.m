@@ -7,8 +7,8 @@
 //
 
 #import "PPStickerTextView.h"
-#import "BAStickerConfig.h"
-#import "PPUtil.h"
+#import "BAInputConfig.h"
+#import "BAExtensions.h"
 
 @interface PPStickerTextView ()
 @property (nonatomic, strong) UILabel *placeholderLabel;
@@ -16,8 +16,7 @@
 
 @implementation PPStickerTextView
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pp_textDidChange:) name:UITextViewTextDidChangeNotification object:self];
@@ -26,32 +25,27 @@
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:self];
 }
 
-- (void)setFont:(UIFont *)font
-{
+- (void)setFont:(UIFont *)font {
     [super setFont:font];
 
     self.placeholderLabel.font = font;
 }
 
-- (void)setText:(NSString *)text
-{
+- (void)setText:(NSString *)text {
     [super setText:text];
     [self showPlaceholderIfNeeded];
 }
 
-- (void)setAttributedText:(NSAttributedString *)attributedText
-{
+- (void)setAttributedText:(NSAttributedString *)attributedText {
     [super setAttributedText:attributedText];
     [self showPlaceholderIfNeeded];
 }
 
-- (UILabel *)placeholderLabel
-{
+- (UILabel *)placeholderLabel {
     if (!_placeholderLabel) {
         _placeholderLabel = [[UILabel alloc] init];
         _placeholderLabel.backgroundColor = [UIColor clearColor];
@@ -64,29 +58,24 @@
     return _placeholderLabel;
 }
 
-- (void)setPlaceholderColor:(UIColor *)placeholderColor
-{
+- (void)setPlaceholderColor:(UIColor *)placeholderColor {
     self.placeholderLabel.textColor = placeholderColor;
 }
 
-- (UIColor *)placeholderColor
-{
+- (UIColor *)placeholderColor {
     return self.placeholderLabel.textColor;
 }
 
-- (void)setPlaceholder:(NSString *)placeholder
-{
+- (void)setPlaceholder:(NSString *)placeholder {
     self.placeholderLabel.text = placeholder;
     [self setNeedsLayout];
 }
 
-- (NSString *)placeholder
-{
+- (NSString *)placeholder {
     return self.placeholderLabel.text;
 }
 
-- (void)showPlaceholderIfNeeded
-{
+- (void)showPlaceholderIfNeeded {
     if ([self shouldShowPlaceholder]) {
         [self showPlaceholder];
     } else {
@@ -94,8 +83,7 @@
     }
 }
 
-- (BOOL)shouldShowPlaceholder
-{
+- (BOOL)shouldShowPlaceholder {
     if ([self.text length] == 0 && [self.placeholder length] > 0) {
         return YES;
     }
@@ -103,18 +91,15 @@
     return NO;
 }
 
-- (void)showPlaceholder
-{
+- (void)showPlaceholder {
     self.placeholderLabel.hidden = NO;
 }
 
-- (void)hidePlaceholder
-{
+- (void)hidePlaceholder {
     self.placeholderLabel.hidden = YES;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self showPlaceholderIfNeeded];
@@ -126,8 +111,7 @@
     }
 }
 
-- (CGRect)placeholderFrame
-{
+- (CGRect)placeholderFrame {
     UIEdgeInsets insets = [self retainedContentInsets];
     CGRect bounds = PPRectInsetEdges(self.bounds, insets);
     CGSize placeholderSize = [self.placeholder pp_sizeWithFont:self.placeholderLabel.font constrainedToSize:CGSizeMake(bounds.size.width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByCharWrapping];
@@ -146,13 +130,11 @@
     return frame;
 }
 
-- (UIEdgeInsets)retainedContentInsets
-{
+- (UIEdgeInsets)retainedContentInsets {
     return UIEdgeInsetsMake(8, 4, 8, 4);
 }
 
-- (void)pp_textDidChange:(NSNotification *)notif
-{
+- (void)pp_textDidChange:(NSNotification *)notif {
     [self showPlaceholderIfNeeded];
 
     CGRect line = [self caretRectForPosition:self.selectedTextRange.start];
@@ -167,8 +149,7 @@
     }
 }
 
-- (void)verticalCenterContent
-{
+- (void)verticalCenterContent {
     NSTextContainer *container = self.textContainer;
     NSLayoutManager *layoutManager = container.layoutManager;
 
@@ -182,8 +163,7 @@
 
 #pragma mark - override
 
-- (void)cut:(id)sender
-{
+- (void)cut:(id)sender {
     NSString *string = [self.attributedText pp_plainTextForRange:self.selectedRange];
     if (string.length) {
         [UIPasteboard generalPasteboard].string = string;
@@ -200,20 +180,18 @@
     }
 }
 
-- (void)copy:(id)sender
-{
+- (void)copy:(id)sender {
     NSString *string = [self.attributedText pp_plainTextForRange:self.selectedRange];
     if (string.length) {
         [UIPasteboard generalPasteboard].string = string;
     }
 }
 
-- (void)paste:(id)sender
-{
+- (void)paste:(id)sender {
     NSString *string = UIPasteboard.generalPasteboard.string;
     if (string.length) {
         NSMutableAttributedString *attributedPasteString = [[NSMutableAttributedString alloc] initWithString:string];
-        [BAStickerConfig.shared replaceEmojiForAttributedString:attributedPasteString font:self.font];
+        [BAInputConfig.shared replaceEmojiForAttributedString:attributedPasteString font:self.font];
         NSRange selectedRange = self.selectedRange;
 
         NSMutableAttributedString *attributeContent = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];

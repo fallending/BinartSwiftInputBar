@@ -7,47 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BAInputHelper.h"
 
 @class BAAnimatedImage;
 @class PPStickerInputView;
 
-typedef NS_ENUM (NSUInteger, PPKeyboardType) {
-    PPKeyboardTypeNone = 0,
-    PPKeyboardTypeSystem,
-    PPKeyboardTypeSticker,
-};
-
-@protocol PPStickerInputViewDelegate <NSObject>
-
-@optional
-
-- (BOOL)stickerInputViewShouldBeginEditing:(PPStickerInputView *)inputView;
-
-- (void)stickerInputViewDidEndEditing:(PPStickerInputView *)inputView;
-
-- (void)stickerInputViewDidChange:(PPStickerInputView *)inputView;
-
-- (void)stickerInputViewDidClickSendButton:(PPStickerInputView *)inputView;
-
-@end
-
 @interface PPStickerInputView : UIView
 
-@property (nonatomic, weak) id<PPStickerInputViewDelegate> delegate;
+- (instancetype)initWithFrame:(CGRect)frame delegate:(id<BAInputHelperDelegate>)delegate;
 
-// 小表情
-@property (nonatomic, strong, readonly) NSString *plainText;
-
-// 大表情
-@property (nonatomic, strong) UIImage *sendImage;
-@property (nonatomic, strong) BAAnimatedImage *sendAnimated;
-
-@property (nonatomic, assign, readonly) PPKeyboardType keyboardType;
-
-- (CGFloat)heightThatFits;
-
-- (void)clearText;
-
-- (void)changeKeyboardTo:(PPKeyboardType)toType;
+@property (nonatomic, strong) BAInputHelper *textViewHelper;
 
 @end

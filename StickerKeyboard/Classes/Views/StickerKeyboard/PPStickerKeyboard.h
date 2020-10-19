@@ -25,7 +25,7 @@
 /// 小表情删除
 - (void)onEmojiDelete;
 
-/// 小表情发送
+/// 小表情发送（表情面板上的发送？？？貌似没有改按钮吧）
 - (void)onEmojiSend;
 
 @end

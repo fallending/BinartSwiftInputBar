@@ -8,8 +8,8 @@
 
 #import "PPEmojiPreviewView.h"
 #import "BASticker.h"
-#import "PPUtil.h"
-#import "BAStickerConfig.h"
+#import "BAExtensions.h"
+#import "BAInputConfig.h"
 #import "BAAnimatedImage.h"
 #import "BAAnimatedImageView.h"
 
@@ -33,7 +33,7 @@ static CGFloat PPEmojiPreviewTextHeight = 13.0;
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.image = BAStickerConfig.shared.previewImage;
+        self.image = BAInputConfig.shared.previewImage;
         [self addSubview:self.emojiAnimatedImageView];
         [self addSubview:self.emojiImageView];
         [self addSubview:self.descriptionLabel];

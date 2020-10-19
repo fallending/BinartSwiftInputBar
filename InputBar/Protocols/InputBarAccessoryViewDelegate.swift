@@ -27,17 +27,10 @@
 
 import Foundation
 import UIKit
+import BinartOCStickerKeyboard
 
 /// InputBarAccessoryViewDelegate is a protocol that can recieve notifications from the InputBarAccessoryView
 public protocol InputBarAccessoryViewDelegate: AnyObject {
-    
-    /// Called when the default send button has been selected
-    ///
-    /// - Parameters:
-    ///   - inputBar: The InputBarAccessoryView
-    ///   - text: The current text in the InputBarAccessoryView's InputTextView
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String)
-    
     /// Called when the instrinsicContentSize of the InputBarAccessoryView has changed. Can be used for adjusting content insets
     /// on other views to make sure the InputBarAccessoryView does not cover up any other view
     ///
@@ -66,6 +59,11 @@ public protocol InputBarAccessoryViewDelegate: AnyObject {
     
     /// 文本变化
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeTextIn range: NSRange, toText text: String)
+    
+    /// 文本发送
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String)
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSend sticker: BASticker)
 }
 
 public extension InputBarAccessoryViewDelegate {
@@ -81,4 +79,6 @@ public extension InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, textViewBeginEditing text: String) {}
     
     func inputBar(_ inputBar: InputBarAccessoryView, didChangeTextIn range: NSRange, toText text: String) {}
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSend sticker: BASticker) {}
 }

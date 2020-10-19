@@ -8,7 +8,7 @@
 
 #import "PPStickerPageView.h"
 #import "BAStickerBundle.h"
-#import "BAStickerConfig.h"
+#import "BAInputConfig.h"
 #import "BAEmoji.h"
 
 NSUInteger const PPStickerPageViewMaxEmojiCount = 20;
@@ -60,7 +60,7 @@ static CGFloat const PPStickerPageViewEmojiButtonVerticalMargin = 16.0;
 //- (UIButton *)deleteButton {
 //    if (!_deleteButton) {
 //        _deleteButton = [[UIButton alloc] init];
-//        [_deleteButton setImage:BAStickerConfig.shared.deleteImage forState:UIControlStateNormal];
+//        [_deleteButton setImage:BAInputConfig.shared.deleteImage forState:UIControlStateNormal];
 //        [_deleteButton addTarget:self action:@selector(didTouchDownDeleteButton:) forControlEvents:UIControlEventTouchDown];
 //        [_deleteButton addTarget:self action:@selector(didTouchUpInsideDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
 //        [_deleteButton addTarget:self action:@selector(didTouchUpOutsideDeleteButton:) forControlEvents:UIControlEventTouchUpOutside];

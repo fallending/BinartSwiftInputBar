@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PPUtil.h"
+#import "BAExtensions.h"
+
 @class PPStickerPageView;
 @class BAStickerBundle;
 @class BASticker;

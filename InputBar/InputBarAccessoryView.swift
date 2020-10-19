@@ -1,6 +1,7 @@
 
 import UIKit
 import BinartOCLayout
+import BinartOCStickerKeyboard
 
 /// A powerful InputAccessoryView ideal for messaging applications
 open class InputBarAccessoryView: UIView, UITextViewDelegate {
@@ -165,25 +166,35 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     }()
     
     /// 文本输入视图
-    open lazy var inputTextView: InputTextView = {
-        let inputTextView = InputTextView()
-        inputTextView.translatesAutoresizingMaskIntoConstraints = false
-        inputTextView.inputBarAccessoryView = self
-        // UIReturnKeySearch
-        // UIReturnKeyJoin
-        // UIReturnKeyNext
-        // UIReturnKeyDone
-        // UIReturnKeySend
-        inputTextView.returnKeyType = .send
-        inputTextView.enablesReturnKeyAutomatically = true // 输入框没有输入的时候，发送按钮是置灰的
-        inputTextView.keyboardType = .default
-        inputTextView.delegate = self
+//    open lazy var inputTextView: InputTextView = {
+//        let inputTextView = InputTextView()
+//        inputTextView.translatesAutoresizingMaskIntoConstraints = false
+//        inputTextView.inputBarAccessoryView = self
+//        // UIReturnKeySearch
+//        // UIReturnKeyJoin
+//        // UIReturnKeyNext
+//        // UIReturnKeyDone
+//        // UIReturnKeySend
+//        inputTextView.returnKeyType = .send
+//        inputTextView.enablesReturnKeyAutomatically = true // 输入框没有输入的时候，发送按钮是置灰的
+//        inputTextView.keyboardType = .default
+//        inputTextView.delegate = self
+//
+//
+//
+//        return inputTextView
+//    }()
+    
+    open lazy var inputHelper: BAInputHelper = {
+        let inputHelper = BAInputHelper.withInputView(self, delegate: self)
+        
+        inputHelper.inputModeDelegate = self
         
         // 设置文本输入视图点击事件
         let click = UITapGestureRecognizer.init(target: self, action: #selector(onInputTextViewClicked))
-        inputTextView.addGestureRecognizer(click)
+        inputHelper.textView.addGestureRecognizer(click)
         
-        return inputTextView
+        return inputHelper
     }()
 
     /// 水平边缘内边距
@@ -287,11 +298,12 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     
     /// The height that will fit the current text in the InputTextView based on its current bounds
     public var requiredInputTextViewHeight: CGFloat {
-        guard middleContentView == inputTextView else {
+        guard middleContentView == inputHelper.textView else {
             return middleContentView?.intrinsicContentSize.height ?? 0
         }
-        let maxTextViewSize = CGSize(width: inputTextView.bounds.width, height: .greatestFiniteMagnitude)
-        return inputTextView.sizeThatFits(maxTextViewSize).height.rounded(.down)
+        
+        let maxTextViewSize = CGSize(width: inputHelper.textView.bounds.width, height: .greatestFiniteMagnitude)
+        return inputHelper.textView.sizeThatFits(maxTextViewSize).height.rounded(.down)
     }
     
     /// The fixed widthAnchor constant of the leftStackView
@@ -398,26 +410,26 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(InputBarAccessoryView.orientationDidChange),
                                                name: UIDevice.orientationDidChangeNotification, object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(InputBarAccessoryView.inputTextViewDidChange),
-                                               name: UITextView.textDidChangeNotification, object: inputTextView)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(InputBarAccessoryView.inputTextViewDidBeginEditing),
-                                               name: UITextView.textDidBeginEditingNotification, object: inputTextView)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(InputBarAccessoryView.inputTextViewDidEndEditing),
-                                               name: UITextView.textDidEndEditingNotification, object: inputTextView)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(InputBarAccessoryView.inputTextViewDidChange),
+//                                               name: UITextView.textDidChangeNotification, object: inputTextView)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(InputBarAccessoryView.inputTextViewDidBeginEditing),
+//                                               name: UITextView.textDidBeginEditingNotification, object: inputTextView)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(InputBarAccessoryView.inputTextViewDidEndEditing),
+//                                               name: UITextView.textDidEndEditingNotification, object: inputTextView)
     }
     
     /// Adds a UISwipeGestureRecognizer for each direction to the InputTextView
     private func setupGestureRecognizers() {
-        let directions: [UISwipeGestureRecognizer.Direction] = [.left, .right]
-        for direction in directions {
-            let gesture = UISwipeGestureRecognizer(target: self,
-                                                   action: #selector(InputBarAccessoryView.didSwipeTextView(_:)))
-            gesture.direction = direction
-            inputTextView.addGestureRecognizer(gesture)
-        }
+//        let directions: [UISwipeGestureRecognizer.Direction] = [.left, .right]
+//        for direction in directions {
+//            let gesture = UISwipeGestureRecognizer(target: self,
+//                                                   action: #selector(InputBarAccessoryView.didSwipeTextView(_:)))
+//            gesture.direction = direction
+//            inputTextView.addGestureRecognizer(gesture)
+//        }
     }
     
     /// Adds all of the subviews
@@ -446,8 +458,8 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         // middleContentViewWrapper 上侧以 superview 为主
         // middleContentViewWrapper 下侧以 bottomStackView 为主
         
-        middleContentViewWrapper.addSubview(inputTextView) // inputTextView fill middleContentViewWrapper
-        middleContentView = inputTextView
+        middleContentViewWrapper.addSubview(inputHelper.textView) // inputTextView fill middleContentViewWrapper
+        middleContentView = inputHelper.textView
     }
     
     /// Sets up the initial constraints of each subview
@@ -476,7 +488,7 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         middleContentViewWrapper.whc_RightSpace(middleContentViewPadding.right, toView: rightStackView)
         middleContentViewWrapper.whc_BottomSpace(-middleContentViewPadding.bottom, toView: bottomStackView)
         
-        inputTextView.fillSuperview()
+        inputHelper.textView.fillSuperview()
         maxTextViewHeight = calculateMaxTextViewHeight()
 //        textViewHeightAnchor = inputTextView.heightAnchor.constraint(equalToConstant: maxTextViewHeight)
         
@@ -565,16 +577,16 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
         if inputTextViewHeight >= maxTextViewHeight {
             if !isOverMaxTextViewHeight {
                 textViewHeightAnchor?.isActive = true
-                inputTextView.isScrollEnabled = true
+                inputHelper.textView.isScrollEnabled = true
                 isOverMaxTextViewHeight = true
             }
             inputTextViewHeight = maxTextViewHeight
         } else {
             if isOverMaxTextViewHeight {
                 textViewHeightAnchor?.isActive = false || shouldForceTextViewMaxHeight
-                inputTextView.isScrollEnabled = false
+                inputHelper.textView.isScrollEnabled = false
                 isOverMaxTextViewHeight = false
-                inputTextView.invalidateIntrinsicContentSize()
+                inputHelper.textView.invalidateIntrinsicContentSize()
             }
         }
         
@@ -592,7 +604,8 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
 
     open override func layoutIfNeeded() {
         super.layoutIfNeeded()
-        inputTextView.layoutIfNeeded()
+        
+        inputHelper.textView.layoutIfNeeded()
     }
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -786,28 +799,31 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     open func setInputBoardView (view: UIView?) {
         
         if let view = view {
-            inputTextView.resignFirstResponder()
-            inputTextView.isEditable = false
-            inputTextView.inputView = view
+            inputHelper.textView.resignFirstResponder()
+            inputHelper.textView.isEditable = false
+            inputHelper.textView.inputView = view
             
             // 只是为了拉起键盘，使inputView生效；同时将inputTextView设置为不可编辑
             // @bugreport 如果对inputView的设置和becomeFirstResponder在一次UI操作的commit中，会出现输入框先跳到两个叠加高度，然后回到预期位置
 //            inputTextView.becomeFirstResponder()
             
             // @bugfix 跳1个runloop帧
-            inputTextView.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.017)
+            inputHelper.textView.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.017)
+            
+            // 更好的方案, 用它的话，isEditable要始终为true，且自己控制游标
+//            inputTextView.reloadInputViews()
             
             if UIDevice.isFullScreen {
                 delBottomSpacingForSafeArea()
             }
             
         } else {
-            inputTextView.resignFirstResponder()
+//            inputTextView.resignFirstResponder()
             
             // FIXME: 这里的处理，不能和微信媲美，需要继续优化！！！！！
 //            let view = inputTextView.inputView
             
-//            inputTextView.perform(#selector(resignFirstResponder), with: nil, afterDelay: 0.017)
+            inputHelper.textView.perform(#selector(resignFirstResponder), with: nil, afterDelay: 0.017)
 //            UIView.animate(withDuration: 0.16) {
 ////                view?.frame = CGRect(origin: view?.frame.origin, size: CGSize(width: view?.frame.width, height: 0))
 //                view?.transform = CGAffineTransform(scaleX: 1, y: 0)
@@ -816,7 +832,8 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
 //                self.inputTextView.inputView = nil
 //            }
 
-            inputTextView.inputView = nil;
+            inputHelper.textView.inputView = nil;
+//            inputTextView.reloadInputViews()
             
             if UIDevice.isFullScreen {
                 addBottomSpacingForSafeArea()
@@ -844,16 +861,15 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     }
     
     @objc func onInputTextViewClicked (_ tap: UITapGestureRecognizer) {
-//        inputTextView.inputView = nil;
-        setInputBoardView(view: nil)
-        
-        if inputTextView.isFirstResponder && inputTextView.isEditable {
+        if inputHelper.textView.isFirstResponder && inputHelper.textView.isEditable {
             return
         }
         
-        inputTextView.isEditable = true
-//        inputTextView.becomeFirstResponder()
-        inputTextView.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.017)
+        setInputBoardView(view: nil)
+
+        // Enable editing
+        inputHelper.textView.isEditable = true
+        inputHelper.textView.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.017)
     }
     
     func setInputAccessoryView () {
@@ -915,46 +931,46 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     /// Calls each items `textViewDidChangeAction` method
     /// Calls the delegates `textViewTextDidChangeTo` method
     /// Invalidates the intrinsicContentSize
-    @objc
-    open func inputTextViewDidChange() {
-        
-        let trimmedText = inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if shouldManageSendButtonEnabledState {
-            var isEnabled = !trimmedText.isEmpty
-            if !isEnabled {
-                // The images property is more resource intensive so only use it if needed
-                isEnabled = inputTextView.images.count > 0
-            }
-//            sendButton.isEnabled = isEnabled
-        }
-        
-        // Capture change before iterating over the InputItem's
-        let shouldInvalidateIntrinsicContentSize = requiredInputTextViewHeight != inputTextView.bounds.height
-        
-        items.forEach { $0.textViewDidChangeAction(with: self.inputTextView) }
-        delegate?.inputBar(self, textViewTextDidChangeTo: trimmedText)
-        
-        if shouldInvalidateIntrinsicContentSize {
-            // Prevent un-needed content size invalidation
-            invalidateIntrinsicContentSize()
-        }
-    }
+//    @objc
+//    open func inputTextViewDidChange() {
+//
+//        let trimmedText = inputTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+//
+//        if shouldManageSendButtonEnabledState {
+//            var isEnabled = !trimmedText.isEmpty
+//            if !isEnabled {
+//                // The images property is more resource intensive so only use it if needed
+//                isEnabled = inputTextView.images.count > 0
+//            }
+////            sendButton.isEnabled = isEnabled
+//        }
+//
+//        // Capture change before iterating over the InputItem's
+//        let shouldInvalidateIntrinsicContentSize = requiredInputTextViewHeight != inputTextView.bounds.height
+//
+//        items.forEach { $0.textViewDidChangeAction(with: self.inputTextView) }
+//        delegate?.inputBar(self, textViewTextDidChangeTo: trimmedText)
+//
+//        if shouldInvalidateIntrinsicContentSize {
+//            // Prevent un-needed content size invalidation
+//            invalidateIntrinsicContentSize()
+//        }
+//    }
     
     /// Calls each items `keyboardEditingBeginsAction` method
-    @objc
-    open func inputTextViewDidBeginEditing() {
-        items.forEach { $0.keyboardEditingBeginsAction() }
-        
-        
-        delegate?.inputBar(self, textViewBeginEditing: "")
-    }
+//    @objc
+//    open func inputTextViewDidBeginEditing() {
+//        items.forEach { $0.keyboardEditingBeginsAction() }
+//
+//
+//        delegate?.inputBar(self, textViewBeginEditing: "")
+//    }
     
     /// Calls each items `keyboardEditingEndsAction` method
-    @objc
-    open func inputTextViewDidEndEditing() {
-        items.forEach { $0.keyboardEditingEndsAction() }
-    }
+//    @objc
+//    open func inputTextViewDidEndEditing() {
+//        items.forEach { $0.keyboardEditingEndsAction() }
+//    }
     
     // MARK: = UITextViewDelegate
         
@@ -965,7 +981,7 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
             
             if (textView.text != nil && textView.text.count > 0) {
                 // 发送！！！
-                didSelectSendButton()
+//                didSelectSendButton()
             }
             
             return false
@@ -1004,11 +1020,120 @@ open class InputBarAccessoryView: UIView, UITextViewDelegate {
     /// Calls the delegates `didPressSendButtonWith` method
     /// Assumes that the InputTextView's text has been set to empty and calls `inputTextViewDidChange()`
     /// Invalidates each of the InputPlugins
-    open func didSelectSendButton() {
-        delegate?.inputBar(self, didPressSendButtonWith: inputTextView.text)
+//    open func didSelectSendButton() {
+//        delegate?.inputBar(self, didPressSendButtonWith: inputTextView.text)
+//
+//        inputTextView.text = String()
+//
+//        inputTextView.resignFirstResponder()
+//    }
+}
+
+// MARK: - BAInputHelperDelegate
+
+extension InputBarAccessoryView: BAInputHelperDelegate {
+    public func onInputDidChange(_ inputHelper: BAInputHelper) {
+
+        let trimmedText = inputHelper.plainText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+//        if shouldManageSendButtonEnabledState {
+//            var isEnabled = !trimmedText.isEmpty
+//            if !isEnabled {
+//                // The images property is more resource intensive so only use it if needed
+//                isEnabled = inputTextView.images.count > 0
+//            }
+////            sendButton.isEnabled = isEnabled
+//        }
+
+        // Capture change before iterating over the InputItem's
+        let shouldInvalidateIntrinsicContentSize = requiredInputTextViewHeight != inputHelper.textView.bounds.height
+
+//        items.forEach { $0.textViewDidChangeAction(with: inputHelper.textView) }
         
-        inputTextView.text = String()
+        delegate?.inputBar(self, textViewTextDidChangeTo: trimmedText)
+
+        if shouldInvalidateIntrinsicContentSize {
+            // Prevent un-needed content size invalidation
+            invalidateIntrinsicContentSize()
+        }
         
-        inputTextView.resignFirstResponder()
+        delegate?.inputBar(self, textViewTextDidChangeTo: inputHelper.plainText)
     }
+    
+    public func onInputDidEndEditing(_ inputHelper: BAInputHelper) {
+        items.forEach { $0.keyboardEditingEndsAction() }
+    }
+    
+    public func onInput(_ inputHelper: BAInputHelper, sendText text: String) {
+        delegate?.inputBar(self, didPressSendButtonWith: text)
+    }
+    
+    public func onInput(_ inputHelper: BAInputHelper, send sticker: BASticker) {
+        delegate?.inputBar(self, didPressSend: sticker)
+    }
+
+    public func onInputShouldBeginEditing(_ inputHelper: BAInputHelper) -> Bool {
+        return true;
+    }
+    
+    public func onInput(_ helper: BAInputHelper, didBeginEditing textView: UITextView) {
+        delegate?.inputBar(self, textViewBeginEditing: "")
+    }
+    
+    public func onInput(_ helper: BAInputHelper, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return true;
+    }
+}
+
+// MARK: - BAInputModeDelegate
+
+extension InputBarAccessoryView: BAInputModeDelegate {
+    public func inputModeSwitch(to type: PPKeyboardType) {
+        if type == .none {
+            
+        } else if type == .system {
+            setInputBoardView(view: nil)
+            
+            // Enable editing
+            inputHelper.textView.isEditable = true
+            inputHelper.textView.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.017)
+        } else if type == .sticker {
+            
+        }
+        
+//        switch type {
+//        case PPKeyboardTypeNone:
+//
+//            break;
+//        case PPKeyboardTypeSystem:
+//            break;
+//
+//        case PPKeyboardTypeSticker:
+//            break;
+//        default:
+//            break;
+//        }
+        
+        
+//        switch (type) {
+//                case PPKeyboardTypeNone:
+//                    [self.emojiToggleButton setImage:BAInputConfig.shared.toggleEmoji forState:UIControlStateNormal];
+//        //            self.textView.inputView = nil;
+//                    break;
+//                case PPKeyboardTypeSystem:
+//                    [self.emojiToggleButton setImage:BAInputConfig.shared.toggleEmoji forState:UIControlStateNormal];
+//        //            self.textView.inputView = nil;                          // 切换到系统键盘
+//        //            [self.textView reloadInputViews];                       // 调用reloadInputViews方法会立刻进行键盘的切换
+//                    break;
+//                case PPKeyboardTypeSticker:
+//                    [self.emojiToggleButton setImage:BAInputConfig.shared.toggleKeyboard forState:UIControlStateNormal];
+//        //            self.textView.inputView = self.stickerKeyboard;         // 切换到自定义的表情键盘
+//        //            [self.textView reloadInputViews];
+//                    break;
+//                default:
+//                    break;
+//            }
+    }
+    
+    
 }

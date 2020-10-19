@@ -9,8 +9,8 @@
 #import "PPStickerKeyboard.h"
 #import "PPEmojiPreviewView.h"
 #import "PPStickerPageView.h"
-#import "BAStickerConfig.h"
-#import "PPUtil.h"
+#import "BAInputConfig.h"
+#import "BAExtensions.h"
 #import "BAEmoji.h"
 
 static CGFloat const PPStickerTopInset = 12.0;
@@ -75,9 +75,9 @@ static NSString *const PPStickerPageViewReuseID = @"PPStickerPageView";
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         _currentStickerIndex = 0;
-        _stickers = BAStickerConfig.shared.allStickers.copy;
+        _stickers = BAInputConfig.shared.allStickers.copy;
 
-        self.backgroundColor = BAStickerConfig.shared.stickerBackgroundColor;
+        self.backgroundColor = BAInputConfig.shared.stickerBackgroundColor;
         [self addSubview:self.queuingScrollView];
         [self addSubview:self.pageControl];
         [self addSubview:self.bottomBGView];
@@ -163,6 +163,8 @@ static NSString *const PPStickerPageViewReuseID = @"PPStickerPageView";
     _inputTextTemp = text;
     
     [self refreshActionButtons];
+    
+    // 改为使用通知～～～～FIXME:
 }
 
 // MARK: - getter / setter
@@ -173,7 +175,7 @@ static NSString *const PPStickerPageViewReuseID = @"PPStickerPageView";
         _queuingScrollView.delegate = self;
         _queuingScrollView.pagePadding = 0;
         _queuingScrollView.alwaysBounceHorizontal = NO;
-        _queuingScrollView.backgroundColor = BAStickerConfig.shared.stickerBackgroundColor;
+        _queuingScrollView.backgroundColor = BAInputConfig.shared.stickerBackgroundColor;
     }
     return _queuingScrollView;
 }
@@ -192,9 +194,9 @@ static NSString *const PPStickerPageViewReuseID = @"PPStickerPageView";
     if (!_sendButton) {
         _sendButton = [[PPSlideLineButton alloc] init];
         [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
-        [_sendButton setTitleColor:BAStickerConfig.shared.sendColorNormal forState:UIControlStateNormal];
-//        [_sendButton setTitleColor:BAStickerConfig.shared.sendColorDisabled forState:UIControlStateDisabled];
-        [_sendButton setBackgroundColor:BAStickerConfig.shared.sendBackgroundColor];
+        [_sendButton setTitleColor:BAInputConfig.shared.sendColorNormal forState:UIControlStateNormal];
+//        [_sendButton setTitleColor:BAInputConfig.shared.sendColorDisabled forState:UIControlStateDisabled];
+        [_sendButton setBackgroundColor:BAInputConfig.shared.sendBackgroundColor];
         _sendButton.linePosition = PPSlideLineButtonPositionLeft;
         _sendButton.lineWidth = 1.f;
         _sendButton.lineColor = [UIColor pp_colorWithRGBString:@"#D1D6DA"];
@@ -208,9 +210,9 @@ static NSString *const PPStickerPageViewReuseID = @"PPStickerPageView";
     if (!_deleteButton) {
         _deleteButton = [[UIButton alloc] init];
 //        _deleteButton.userInteractionEnabled = YES;
-        [_deleteButton setBackgroundColor:BAStickerConfig.shared.deleteBackgroundColor];
-        [_deleteButton setImage:BAStickerConfig.shared.deleteImageNormal forState:UIControlStateNormal];
-//        [_deleteButton setImage:BAStickerConfig.shared.deleteImageDisabled forState:UIControlStateDisabled];
+        [_deleteButton setBackgroundColor:BAInputConfig.shared.deleteBackgroundColor];
+        [_deleteButton setImage:BAInputConfig.shared.deleteImageNormal forState:UIControlStateNormal];
+//        [_deleteButton setImage:BAInputConfig.shared.deleteImageDisabled forState:UIControlStateDisabled];
         [_deleteButton addTarget:self action:@selector(didTouchDownDeleteButton:) forControlEvents:UIControlEventTouchDown];
         [_deleteButton addTarget:self action:@selector(didTouchUpInsideDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         [_deleteButton addTarget:self action:@selector(didTouchUpOutsideDeleteButton:) forControlEvents:UIControlEventTouchUpOutside];
@@ -231,7 +233,7 @@ static NSString *const PPStickerPageViewReuseID = @"PPStickerPageView";
 - (UIView *)bottomBGView {
     if (!_bottomBGView) {
         _bottomBGView = [[UIView alloc] init];
-        _bottomBGView.backgroundColor = BAStickerConfig.shared.cateBackgroundColor;
+        _bottomBGView.backgroundColor = BAInputConfig.shared.cateBackgroundColor;
     }
     return _bottomBGView;
 }

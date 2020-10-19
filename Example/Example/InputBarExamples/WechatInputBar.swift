@@ -46,25 +46,25 @@ class WechatInputBar: InputBarAccessoryView {
     }
     
     func configure() {
-        self.inputTextView.backgroundColor = .red
+        inputHelper.textView.backgroundColor = .red
         self.middleContentViewPadding = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
 
         // MARK: = 输入框
         
         // We can change the container insets if we want
-        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
+        inputHelper.textView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+//        inputHelper.textView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         
         // MARK: = 表情扩展
-        BAStickerConfig.shared.deleteImageNormal = UIImage.init(named: "delete-emoji") ?? UIImage()
-        BAStickerConfig.shared.previewImage = UIImage.init(named: "emoji-preview-bg") ?? UIImage()
-        BAStickerConfig.shared.toggleEmoji = UIImage.init(named: "toggle_emoji") ?? UIImage()
-        BAStickerConfig.shared.toggleKeyboard = UIImage.init(named: "toggle_keyboard") ?? UIImage()
-        BAStickerConfig.shared.configFile = "ExampleSticker.plist";
-        BAStickerConfig.shared.config()
+        BAInputConfig.shared.deleteImageNormal = UIImage.init(named: "delete-emoji") ?? UIImage()
+        BAInputConfig.shared.previewImage = UIImage.init(named: "emoji-preview-bg") ?? UIImage()
+        BAInputConfig.shared.toggleEmoji = UIImage.init(named: "toggle_emoji") ?? UIImage()
+        BAInputConfig.shared.toggleKeyboard = UIImage.init(named: "toggle_keyboard") ?? UIImage()
+        BAInputConfig.shared.configFile = "ExampleSticker.plist";
+        BAInputConfig.shared.config()
         
         // 固定表情键盘高度
-        let emoticonView = PPStickerKeyboard()
+        let emoticonView = inputHelper.stickerKeyboard//PPStickerKeyboard()
         emoticonView.frame = CGRect(x: 0, y: 0, width: 0, height: 200)
         
         stickerBtn = InputBarButtonItem()

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Vernon. All rights reserved.
 //
 
-#import "BAStickerConfig.h"
+#import "BAInputConfig.h"
 
 // MARK: -
 
@@ -22,21 +22,21 @@
 
 // MARK: -
 
-@interface BAStickerConfig () {
+@interface BAInputConfig () {
     NSBundle *_defaultBundle;
 }
 
 @property (nonatomic, strong, readwrite) NSArray<BAStickerBundle *> *allStickers;
 @end
 
-@implementation BAStickerConfig
+@implementation BAInputConfig
 @dynamic shared;
 
-+ (BAStickerConfig *)shared {
++ (BAInputConfig *)shared {
     static dispatch_once_t onceToken;
     static __strong id __singleton__ = nil;
     dispatch_once(&onceToken, ^{
-        __singleton__ = [BAStickerConfig new];
+        __singleton__ = [BAInputConfig new];
     });
     return __singleton__;
 }
